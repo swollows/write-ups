@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?><manifest xmlns:android="http://schemas.android.com/apk/res/android" android:compileSdkVersion="32" android:compileSdkVersionCodename="12" package="com.example.summer" platformBuildVersionCode="32" platformBuildVersionName="12">
+    <application android:allowBackup="true" android:appComponentFactory="androidx.core.app.CoreComponentFactory" android:dataExtractionRules="@xml/data_extraction_rules" android:fullBackupContent="@xml/backup_rules" android:icon="@mipmap/ic_main" android:label="@string/app_name" android:roundIcon="@mipmap/ic_main_round" android:supportsRtl="true" android:theme="@style/Theme.SUMMER">
+        <activity android:exported="true" android:name="com.example.summer.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <service android:name="com.example.summer.TimerService"/>
+    </application>
+</manifest>

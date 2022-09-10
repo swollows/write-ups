@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView android:textSize="30.0sp" android:textColor="@color/black" android:id="@id/timeTV" android:padding="10.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="00:00:00" android:textAlignment="center" />
+    <ImageView android:id="@id/fan_higher" android:layout_width="fill_parent" android:layout_height="wrap_content" android:src="@drawable/fan_higher" />
+    <ImageView android:id="@id/fan_lower" android:layout_width="fill_parent" android:layout_height="wrap_content" android:src="@drawable/fan_lower" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:padding="10.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <com.google.android.material.button.MaterialButton android:id="@id/startStopButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="start" app:icon="@drawable/ic_baseline_play_arrow_24" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toStartOf="@id/resetButton" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" />
+        <com.google.android.material.button.MaterialButton android:id="@id/resetButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="reset" app:icon="@drawable/ic_baseline_replay_24" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toEndOf="@id/startStopButton" app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <Button android:id="@id/flagButton" android:padding="10.0dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="20.0dip" android:layout_marginRight="20.0dip" android:text="GET FLAG!" android:textAlignment="center" />
+</LinearLayout>
