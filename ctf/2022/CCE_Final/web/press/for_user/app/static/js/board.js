@@ -1,0 +1,1 @@
+window.userInfo={};function load_user_info(){let a=document.getElementById("userInfoValue").value;try{window.userInfo=JSON.parse(a)}catch{window.userInfo={}}}

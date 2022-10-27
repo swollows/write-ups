@@ -1,0 +1,51 @@
+version: "3.1"
+
+networks:
+  app-tier:
+    driver: bridge
+  
+services:
+  metapwn_cce_db:
+    networks:
+      - app-tier
+    image: mariadb
+    container_name: metapwn_cce_db
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=a4a16b7dc5e493e07e55cf
+      - MYSQL_USER=cce
+      - MYSQL_PASSWORD=cce_metapwn
+      - MYSQL_DATABASE=metapwn
+      - TZ=Asia/Seoul
+    volumes: 
+      - ./db-data:/var/lib/mysql
+      - ./mysql.cnf:/etc/mysql/conf.d/custom.cnf
+  metapwn_cce_app:
+    networks:
+      - app-tier
+    image: node:16
+    container_name: metapwn_cce_app
+    volumes:
+      - ./src:/usr/src/app
+    restart: always
+    ports:
+      - "1929:3000"
+    links:
+      - metapwn_cce_db
+    depends_on:
+      - metapwn_cce_db
+    environment: 
+      - TZ=Asia/Seoul 
+      - NODE_ENV=production
+    command: sh /usr/src/app/run.sh
+  metapwn_cce_bot:
+    networks:
+      - app-tier
+    build: ./bot
+    container_name: metapwn_cce_bot
+    volumes:
+      - ./bot:/usr/src/app
+    restart: always
+    environment: 
+      - TZ=Asia/Seoul 
+

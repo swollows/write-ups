@@ -1,0 +1,183 @@
+@font-face {
+    font-family: DungGeunMo;
+    src:url('/font/DungGeunMo.eot'); 
+    src:url('/font/DungGeunMo.eot?#iefix') format('embedded-opentype'),
+        url('/font/DungGeunMo.woff2') format('woff2'),
+        url('/font/DungGeunMo.woff') format('woff'),
+        url('/font/DungGeunMo.ttf') format('truetype');
+
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'twayair';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_tway@1.0/twayair.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body{
+  font-family: twayair;
+  margin-bottom: 2em;
+}
+
+.navbar {
+    min-height: 60px;
+  }
+  
+.navbar-brand {
+    padding: 0 15px;
+    height: 50px;
+    line-height: 60px;
+}
+  
+.navbar-toggle {
+    /* (60px - button height 34px) / 2 = 18px */
+    margin-top: 18px;
+    padding: 9px 10px !important;
+}
+  
+@media (min-width: 768px) {
+    .navbar-nav > li > a {
+      /* (60px - line-height of 17px) / 2 = 16.5px */
+      padding-top: 16.5px;
+      padding-bottom: 16.5px;
+      line-height: 17px;
+    }
+}
+
+*:focus {
+    outline: none;
+} 
+
+.chall-box{
+    display: inline-block;
+    width: 100%;
+}
+
+a:link {
+    text-decoration: none;
+}
+  
+a:visited {
+    text-decoration: none;
+}
+  
+a:hover {
+    text-decoration: none;
+}
+
+.image {
+    width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 800px;
+}
+
+input[type=password] {
+    font-family: "DungGeunMo";
+}
+
+input::placeholder {
+    font-family: "twayair";
+}
+
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+    #f0c46d
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+  .footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    line-height: 2em; /* Vertically center the text there */
+  }
+
+
+  .nav-link{
+    color: white !important;
+  }
+
+  .nav-link:hover{
+    color: rgba(255, 255, 255, 0.5) !important;
+  }
+
+  .dropdown-item{
+    color: black !important;
+  }
+
+  .dropdown-item:hover{
+    color: rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .dropdown-item:active{
+    background-color: rgba(255, 255, 255, 0.5) !important;
+  }
+  .btn{
+	  background-color: #f0c46d; border-color:#f0c46d;
+	  }

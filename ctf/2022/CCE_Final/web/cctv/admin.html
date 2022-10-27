@@ -1,0 +1,117 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>RC Red-House CCTV</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<style type="text/css">
+a { font-style:normal; font-weight:normal; text-decoration:none; }
+body {
+        margin-left: 10px;
+        margin-top: 10px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        background-color: #ffffff;
+}
+
+.table {
+        border-top-width: 2px;
+        border-top-style: solid;
+        border-top-color: #333333;
+}
+.font100 {
+	FONT-FAMILY: "돋움",  "arial";
+	FONT-SIZE: 14px;
+	LINE-HEIGHT: 14pt;
+	COLOR: #000000
+}
+.font101 {
+	FONT-FAMILY: "돋움",  "arial";
+	FONT-SIZE: 12px;
+	LINE-HEIGHT: 12pt;
+	COLOR: #666666
+}
+  .menu{padding:0; height: 150px; width: 200px;
+    background-color: wheat;  text-align: center; font-size: 20px;
+    font-weight: bold; line-height: 50px; list-style: none;}
+  .menu>li>a{text-decoration: none; color:black; display: block;}
+  .menu>li{border: 1px solid black; height: calc(100% / 3);
+    box-sizing: border-box;}
+  .menu>li:nth-child(1), .menu>li:nth-child(2){border-bottom: none;}
+</style>
+<script type="text/javascript">
+
+redirectTopWindow();
+
+function redirectTopWindow(){
+        if( top != self ){
+                var URL = "http://" + window.location.host;
+                top.location.replace(URL);
+        }
+}
+
+</script>
+</head>
+<body>
+<table border="0" cellpadding="0" cellspacing="0" style="font-size:10px" width="990" height="600">
+	<tbody><tr>
+		<td valign="top">
+			<table valign="top" border="0" cellpadding="0" cellspacing="0" width="988" height="51" bgcolor="#F9F9F9">
+				<tbody><tr height="3">
+					<td width="988" colspan="8" style="font-size:8px;"></td>
+				</tr>
+				<tr height="45">
+					<td width="5"></td>
+					<td width="500" height="20">
+						<h1 onclick="location.href='/'">RC Red-House CCTV</h1>
+					</td>
+					<td width="20"></td>
+					<td width="5"></td>
+					<td width="45" height="45" align="right" valign="bottom">	
+						
+					</td>
+					<td width="5"></td>
+				</tr>
+				<tr height="3">
+					<td width="988" colspan="8" style="font-size:8px;"></td>
+				</tr>
+			</tbody></table>
+			<table cellpadding="0" cellspacing="0" width="988" height="4" bgcolor="#3153D8">
+				<tbody><tr>
+					<td>
+					</td>
+				</tr>
+				</tbody></table>
+		<table cellpadding="0" cellspacing="0" width="988" height="600">
+			<tbody><tr>
+				<td width="200" bgcolor=gray valign="top">
+					<ul class="menu">
+    					<li class="top"><a href="#ping">ping</a></li>
+    					<li class="middle"><a href="#capture">capture</a></li>
+    					<li class="bottom"><a href="#logout">logout</a></li>
+  					</ul>
+				</td>
+				<td width="788">
+					<iframe id="frame" height="600" width="784" frameborder=1></iframe>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+		</td>
+	</tr>
+</tbody></table>
+<script>
+	window.onhashchange = () => {
+		var menu = location.hash.slice(1);
+		
+		if(menu == "ping") {
+			frame.srcdoc  = atob("PCFET0NUWVBFIGh0bWw+PGh0bWw+PGJvZHk+PHRpdGxlPlJDIFJlZC1Ib3VzZSBDQ1RWPC90aXRsZT48ZGl2PjxwPjwvcD48aW5wdXQgdHlwZT0idGV4dCIgaWQ9ImlwIiBuYW1lPSJpcCIgcGxhY2Vob2xkZXI9IkV4LiAxMjcuMC4wLjEiIHZhbHVlPSIiPjwvaW5wdXQ+PGJ1dHRvbiB0eXBlPSJidXR0b24iIGlkPSJwaW5nIiBvbmNsaWNrPSJwaW5nKCkiPlBpbmcgVGVzdDwvYnV0dG9uPjwvZGl2PjxwPjxpZnJhbWUgc3JjPSIiIGhlaWdodD0iMzAwcHgiIHdpZHRoPSI2MDBweCIgdGl0bGU9InBpbmciIGlkPSJyZXN1bHQtZm9ybSI+PC9pZnJhbWU+PC9wPjxzY3JpcHQ+ZnVuY3Rpb24gcGluZygpe3ZhciBpcD1kb2N1bWVudC5nZXRFbGVtZW50QnlJZCgiaXAiKS52YWx1ZTtkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgncmVzdWx0LWZvcm0nKS5zcmM9Ii9jZ2ktYmluL3BpbmcuY2dpP2lwPSIgKyBpcDt9O2RvY3VtZW50LmdldEVsZW1lbnRCeUlkKCdyZXN1bHQtZm9ybScpLm9ubG9hZD1mdW5jdGlvbiAoKXt0aGlzLmNvbnRlbnREb2N1bWVudC5ib2R5LmlubmVySFRNTD10aGlzLmNvbnRlbnREb2N1bWVudC5ib2R5LmlubmVySFRNTC5yZXBsYWNlQWxsKCJcbiIsIjxici8+Iil9Ozwvc2NyaXB0PjwvYm9keT48L2h0bWw+");
+		}
+		else if(menu == "capture") {
+			frame.srcdoc  = atob("PCFET0NUWVBFIGh0bWw+PGh0bWw+PGJvZHk+PHRpdGxlPlJDIFJlZC1Ib3VzZSBDQ1RWPC90aXRsZT48ZGl2PjxwPjwvcD48YnV0dG9uIHR5cGU9ImJ1dHRvbiIgaWQ9InBpbmciIG9uY2xpY2s9ImNhcHR1cmUoKSI+Q2FwdHVyZTwvYnV0dG9uPjwvZGl2PjxwPjxpZnJhbWUgc3JjPSIiIGhlaWdodD0iNTIwcHgiIHdpZHRoPSI0ODBweCIgdGl0bGU9ImNhcHR1cmUiIGlkPSJjYXB0dXJlLWZvcm0iPjwvaWZyYW1lPjwvcD48c2NyaXB0PmZ1bmN0aW9uIGNhcHR1cmUoKXtkb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnY2FwdHVyZS1mb3JtJykuc3JjPSIvY2dpLWJpbi92aWV3LmNnaSI7fTwvc2NyaXB0PjwvYm9keT48L2h0bWw+");
+		}
+		else {
+			document.cookie = "SESSION=;expires=" + new Date(0).toUTCString();
+			frame.srcdoc = atob("PHNjcmlwdD5sb2NhdGlvbi5ocmVmID0gIi9jZ2ktYmluLyI7PC9zY3JpcHQ+");
+		}
+	}
+</script>
+</body></html>

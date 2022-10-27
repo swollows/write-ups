@@ -1,0 +1,29 @@
+<% 
+  css=[] 
+  js=['another.js'] 
+%>
+<%- include('./components/header') %>
+<%- include('./components/navbar') %>
+
+  <section>
+    <div class="py-3">
+      <div class="container">
+        <div>
+          <p id="title" style="font-size: 48px; text-align: center; margin-bottom: 1px;">
+            
+          </p>
+        </div>
+        <hr>
+        <div style="text-align: center;">
+          <canvas id="room" width="1000" height="800" style="outline: 1px solid;"></canvas>
+          <input type="file" style="visibility: hidden" id="uploadfile">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const uuid = '<%=uuid%>'
+  </script>
+
+<%- include('./components/footer') %>

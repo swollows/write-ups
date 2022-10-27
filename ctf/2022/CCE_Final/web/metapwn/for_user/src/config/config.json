@@ -1,0 +1,33 @@
+{
+  "development": {
+    "username": "root",
+    "password": "a4a16b7dc5e493e07e55cf",
+    "database": "metapwn",
+    "host": "metapwn_cce_db",
+    "dialect": "mysql",
+    "operatorAliases": false,
+    "port": 3306,
+    "timezone": "+09:00",
+    "logging": true
+  },
+  "test": {
+    "username": "root",
+    "password": "a4a16b7dc5e493e07e55cf",
+    "database": "metapwn",
+    "host": "metapwn_cce_db",
+    "dialect": "mysql",
+    "port": 3306,
+    "timezone": "+09:00",
+    "logging": false
+  },
+  "production": {
+    "username": "root",
+    "password": "a4a16b7dc5e493e07e55cf",
+    "database": "metapwn",
+    "host": "metapwn_cce_db",
+    "dialect": "mysql",
+    "port": 3306,
+    "timezone": "+09:00",
+    "logging": false
+  }
+}

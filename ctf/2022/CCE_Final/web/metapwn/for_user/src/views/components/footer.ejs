@@ -1,0 +1,15 @@
+    <br><br>
+
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/axios.min.js"></script>
+    <script src="/js/ejs.min.js"></script>
+    <script src="/js/index.js"></script>
+
+    <% js.forEach(x=> { %>
+      <script src="/js/<%= x %>"></script>
+    <% }) %>
+  </body>
+
+</html>

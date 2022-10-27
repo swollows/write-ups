@@ -1,0 +1,38 @@
+<% 
+  css=[] 
+  js=['login.js'] 
+%>
+<%- include('./components/header') %>
+<%- include('./components/navbar') %>
+
+  <section>
+    <div class="py-3">
+      <div class="container">
+        <div>
+          <p style="font-size: 48px; text-align: center;">
+            Login
+          </p>
+        </div>
+        <hr>
+        <div>
+          <form>
+            <div class="form-group">
+              <label for="inputID">ID</label>
+              <input type="text" placeholder="ID" class="form-control" id="inputID" aria-describedby="idHelp">
+              <small id="idHelp" class="form-text text-muted">Please input username</small>
+              <small id="idWarning" class="form-text text-danger" style="display: none;">len(id) >= 6</small>
+            </div>
+            <div class="form-group">
+              <label for="inputPW">Password</label>
+              <input type="password" placeholder="Password" class="form-control" id="inputPW" aria-describedby="pwHelp">
+              <small id="pwHelp" class="form-text text-muted">Please input password</small>
+              <small id="pwWarning" class="form-text text-danger" style="display: none;">len(password) >= 6</small>
+            </div>
+            <button type="button" class="btn btn-primary" id="submitBtn">submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<%- include('./components/footer') %>

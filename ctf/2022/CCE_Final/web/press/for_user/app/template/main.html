@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com" nonce="{{SCRIPT_NONCE}}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <header class="flex-none relative z-50 text-sm leading-6 font-medium ring-1 ring-gray-900 ring-opacity-5 shadow-sm py-5 bg-white">
+        <nav class="max-w-6xl w-full mx-auto px-6">
+            <div class="flex items-center flex-nowrap">
+                <h1 class="text-2xl font-bold text-red-500">
+                    <i class="fa-solid fa-hurricane"></i> Red Daily News
+                </h1>
+                <p class="text-sm text-gray-500 font-normal border-l border-gray-200 ml-4 pl-4 py-0.5 invisible md:visible">
+                    <span class="">Express News that make of Strong Nation</span>
+                </p>
+                <div id="header-menu-container" class="w-full flex-none mt-4 mt-0 w-auto ml-auto flex items-center invisible md:visible">
+                </div>
+            </div>
+        </nav>
+    </header>
+    <input type="hidden" id="isMain" value="Y">
+    <div class="container max-w-6xl w-full mx-auto px-6">
+		<hr class="invisible mb-8 mx-4">
+        <ul>
+            <li id="news-list" class="py-4">
+            </li>
+        </ul>
+    </div>
+    <div id="before-login-header-menu" class="invisible">
+        <a href="/login" class="group pl-6 block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-50 text-base">LOGIN</a>
+    </div>
+    <div id="after-login-header-menu" class="invisible">
+        <div class="group pl-6 block py-2 pr-4 pl-3 text-gray-800 text-base border-r mr-4"><span>Hello, </span><span id="user">{{USER}}</span></div>
+        <a href="/new" class="group pl-6 block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-50 text-base mr-2">WRITE</a>
+        <a href="/logout" class="group pl-6 block py-2 pr-4 pl-3 text-gray-700 hover:bg-gray-50 text-base">LOGOUT</a>
+    </div>
+    <div id="news-template" class="invisible">
+        <a class="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0 py-4" href="{{HREF}}">
+            <div class="space-y-2 xl:col-span-3">
+                <div>
+                    <h3 class="text-2xl font-bold leading-8 tracking-tight">
+                        <div class="title text-gray-900 dark:text-gray-700" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{TITLE}}</div>
+                    </h3>
+                </div>
+                <div class="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
+                    <span>Date: </span><span class="time pr-2">{{TIME}}</span>
+                    <span class="border-l pl-2 border-gray-200">author: </span><span class="author">{{AUTHOR}}</span>
+                </div>
+            </div>
+        </a>
+    </div>
+    <script nonce="{{SCRIPT_NONCE}}" src="/static/js/index.js">
+    </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<% 
+  css=[] 
+  js=['friends.js'] 
+%>
+<%- include('./components/header') %>
+<%- include('./components/navbar') %>
+
+  <section>
+    <div class="py-3">
+      <div class="container">
+        <div>
+          <p style="font-size: 48px; text-align: center; margin-bottom: 1px;">
+            Your Friends
+          </p>
+        </div>
+        <hr>
+        <table class="table" style="text-align: center;">
+          <thead>
+            <tr>
+              <th scope="col" style="width:10%; color: blue;">#</th>
+              <th scope="col" style="width:80%">friends</th>
+              <th scope="col" style="width:10%">visit</th>
+            </tr>
+          </thead>
+          <tbody id="friends">
+          </tbody>
+        </table>
+        <hr>
+
+
+        <div>
+          <p style="font-size: 48px; text-align: center; margin-bottom: 1px;">
+            Your Requests
+          </p>
+          <p style="text-align: center; color: #007bff;"><a id="requestFriend">Request Friend</p>
+        </div>
+        <table class="table" style="text-align: center;">
+          <thead>
+            <tr>
+              <th scope="col" style="width:10%; color: blue;">#</th>
+              <th scope="col" style="width:80%">username</th>
+              <th scope="col" style="width:10%"></th>
+            </tr>
+          </thead>
+          <tbody id="request">
+          </tbody>
+        </table>
+        <hr>
+
+
+        <div>
+          <p style="font-size: 48px; text-align: center; margin-bottom: 1px;">
+            Receive Requests
+          </p>
+        </div>
+        <table class="table" style="text-align: center;">
+          <thead>
+            <tr>
+              <th scope="col" style="width:10%; color: blue;">#</th>
+              <th scope="col" style="width:80%">username</th>
+              <th scope="col" style="width:10%">accept</th>
+            </tr>
+          </thead>
+          <tbody id="receive">
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </section>
+
+<%- include('./components/footer') %>
