@@ -25,7 +25,7 @@ def read_url(url, cookie={"name": "name", "value": "value"}):
             "disable-dev-shm-usage",
         ]:
             options.add_argument(_)
-        driver = webdriver.Chrome("/chromedriver", options=options)
+        driver = webdriver.Chrome("/usr/local/bin/chromedriver", options=options)
         driver.implicitly_wait(3)
         driver.set_page_load_timeout(3)
         driver.get("http://127.0.0.1:8000/")
@@ -33,7 +33,7 @@ def read_url(url, cookie={"name": "name", "value": "value"}):
         driver.get(url)
     except Exception as e:
         driver.quit()
-        # return str(e)
+        return str(e)
         return False
     driver.quit()
     return True

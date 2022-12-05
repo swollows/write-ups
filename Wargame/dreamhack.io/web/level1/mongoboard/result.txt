@@ -1,0 +1,2 @@
+{"secret":true,"_id":"63724b8fea4127af5968fcba","title":"FLAG","body":"DH{f823bac286ef352172b1cd73c812708ea356a000}","author":"admin","publish_date":"2022-11-14T14:07:11.222Z"}
+{"secret":false,"_id":"63724b94ea4127af5968fcbb","title":"Good","body":"bye~","author":"guest","publish_date":"2022-11-14T14:07:16.223Z"}
