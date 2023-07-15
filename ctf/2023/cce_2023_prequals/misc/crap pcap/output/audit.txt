@@ -1,0 +1,31 @@
+Foremost version 1.5.7 by Jesse Kornblum, Kris Kendall, and Nick Mikus
+Audit File
+
+Foremost started at Sat Jun 10 19:44:30 2023
+Invocation: foremost -v -i realtek.pcap 
+Output directory: /home/swollows/cce_2023_prequals/misc/crap pcap/output
+Configuration file: /etc/foremost.conf
+------------------------------------------------------------------
+File: realtek.pcap
+Start: Sat Jun 10 19:44:30 2023
+Length: 559 KB (573086 bytes)
+ 
+Num	 Name (bs=512)	       Size	 File Offset	 Comment 
+
+0:	00000299.gif 	       1 KB 	     153197 	  (20 x 17)
+1:	00000301.gif 	      928 B 	     154420 	  (16 x 16)
+2:	00000303.gif 	      585 B 	     155537 	  (20 x 17)
+3:	00000311.gif 	     1019 B 	     159626 	  (16 x 16)
+4:	00000315.gif 	      914 B 	     161649 	  (15 x 17)
+5:	00000382.zip 	     334 KB 	     195797 	 
+6:	00000309.png 	      816 B 	     158625 	  (16 x 16)
+Finish: Sat Jun 10 19:44:30 2023
+
+7 FILES EXTRACTED
+	
+gif:= 5
+zip:= 1
+png:= 1
+------------------------------------------------------------------
+
+Foremost finished at Sat Jun 10 19:44:30 2023
