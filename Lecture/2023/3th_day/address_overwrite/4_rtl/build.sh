@@ -1,0 +1,1 @@
+gcc -no-pie -fno-stack-protector rtl.c -o rtl

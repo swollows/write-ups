@@ -1,0 +1,1 @@
+gcc -no-pie -fno-stack-protector oneshot.c -o oneshot
