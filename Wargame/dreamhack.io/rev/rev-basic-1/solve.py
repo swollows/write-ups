@@ -1,0 +1,26 @@
+FLAG = "DH{"
+
+FLAG += chr(67)
+FLAG += chr(111)
+FLAG += chr(109)
+FLAG += chr(112)
+FLAG += chr(97)
+FLAG += chr(114)
+FLAG += chr(51)
+FLAG += chr(95)
+FLAG += chr(116)
+FLAG += chr(104)
+FLAG += chr(101)
+FLAG += chr(95)
+FLAG += chr(99)
+FLAG += chr(104)
+FLAG += chr(52)
+FLAG += chr(114)
+FLAG += chr(97)
+FLAG += chr(99)
+FLAG += chr(116)
+FLAG += chr(51)
+FLAG += chr(114)
+FLAG += '}'
+
+print(FLAG)

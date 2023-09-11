@@ -1,0 +1,32 @@
+21. Flash Encrypt
+  - 문제 정보
+  01) 문제의 바이너리는 Adobe Flash(*.swf) 형태로 이루어짐
+  02) 해당 내용은 swf 디컴파일러로 확인 필요 (ffdec 디컴파일러 이용)
+  03) 바이너리 실행을 위해서는 본 폴더에 함께 동봉된 Adobe Flash Player 30.zip 이 필요함.
+  
+  - 풀이 절차
+  01) swf 파일을 실행하면 문자열 입력창과 함께 O 버튼을 확인할 수 있음
+  02) ffdec 컴파일러를 이용하여 Frame 정보를 확인해보면 총 7개의 프레임이 존재하며
+      각 프레임을 확인해보면 최종 키가 출력되는 7번을 제외하고 나머지는 키를 입력하는 화면임.
+  03) 각 frame 정보를 살펴보면 키 정보가 맞을 경우 이전 오브젝트를 삭제하는 로직이 있음.
+      후에 새로운 위치에 비슷한 오브젝트를 생성하여 입력대기를 반복함.
+  04) 이를 바탕으로 총 6회에 거친 키 입력이 모두 일치하면 최종 Key를 출력하는 것을 알 수 있음.
+  05) script 부분을 확인해보면 각 프레임별 버튼을 정의하는 부분에서 버튼의 클릭시 동작방식을 설명함.
+  06) script와 frame 부분을 비교해보면 각 프레임별로 대응하는 오브젝트는 아래와 같음
+    ※ ffdec 기준
+      - frame1 = DefineButton2 (4)
+      - frame2 = DefineButton2 (7)
+      - frame3 = DefineButton2 (9)
+      - frame4 = DefineButton2 (11)
+      - frame5 = DefineButton2 (13)
+      - frame6 = DefineButton2 (15)
+  07) 각 버튼의 ActionScript 코드를 확인해보면 난독화처리 되어있는 것이 확인되며,
+      ffdec는 이를 복호화하는 기능이 존재하나 실력향상을 위해 이 기능을 사용하지 않고 분석함.
+      핵심은 gotoAndPlay(N) 함수를 추적하는 것임.
+  08) 실제로 코드를 gotoAndPlay 함수를 기준으로 추적해보면 아래와 같은 순서로 프레임이 동작함을 파악가능
+    - frame1 -> frame3 -> frame4 -> frame2 -> frame6 -> frame5
+  09) gotoAndPlay(N) 함수가 호출되는 부분의 바로 위를 보면 eval 함수로 선언한 변수를 비교하는 로직이 존재함.
+      이 로직이 변수부라고 생각하고 입력할 숫자 정보를 08번 정보화 결합해보면 아래와 같음.
+    - frame1 (1456) -> frame3 (25) -> frame4 (44) -> frame2 (8) -> frame6(88) -> frame5 (20546)
+  10) 09번에서 가정한대로 숫자를 입력하면 플래그를 획득할 수 있음.
+    ※ 이 시점에서 [Settings] -> [Automatic deobfuscation] 기능을 활성화 하면 정답 확인 가능
