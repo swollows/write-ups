@@ -1,0 +1,6 @@
+url_type:COMMONTYPE:"Cookie: ac_session=1;JSESSIONID=1;cna=1;linezing_session=1;UID=1;ASP.NET_SessionId=1;"
+	common.com
+url_type:BAIDU:"BAIDUID=1;"
+	baidu.com
+	hexun.com
+	bdimg.com

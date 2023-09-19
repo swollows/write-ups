@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<wrgac14_dlob.hans_dir816l>
+	<runtime>
+		<device>
+			<wlandriver>RTL819x</wlandriver>
+			<modelname>DIR-816L</modelname>
+			<upnpvendor>D-Link Corporation</upnpvendor>
+			<producturl>http://www.dlink.com.tw</producturl>
+			<description>Wireless Broadband Router</description>
+		</device>
+	</runtime>
+</wrgac14_dlob.hans_dir816l>

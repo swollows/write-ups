@@ -1,0 +1,7 @@
+#!/bin/sh
+while :
+do
+	echo "runing minidlna program"
+	/etc/minidlna $*
+	echo "minidlna.app exist $?"
+done
