@@ -1,0 +1,34 @@
+#qemu --> 에뮬레이터 설치
+apt-get update -y
+apt-get install -y qemu-user-static
+
+#크로스컴파일러 설치
+32bit
+apt-get install gcc-arm-linux-gnueabi g++-arm-linux-gnueabi -y
+
+64bit
+apt-get install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu -y
+
+#gdb-multiarch설치
+apt-get install gdb-multiarch
+
+
+#크로스컴파일하는법
+32bit
+arm-linux-gnueabi-gcc -o test32 ./test.c
+
+64bit
+aarch64-linux-gnu-gcc -o test64 ./test.c
+
+#qemu execute and Set debug port
+32bit
+qemu-arm-static -L /usr/arm-linux-gnueabi -g 8888 ./test32
+
+64bit
+qemu-aarch64-static -L /usr/aarch64-linux-gnu/ -g 8888 ./test64
+
+#attach debug
+gdb-multiarch
+set arch arm
+target remote:8888
+file [binary path]
