@@ -1,7 +1,0 @@
-#!/bin/sh
-while :
-do
-	echo "runing dnsmasq program"
-	/etc/dnsmasq -k $*
-	echo "dnsmasq.app exist $?"
-done
