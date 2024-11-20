@@ -4,6 +4,7 @@ from flask import Flask, request, render_template, redirect, url_for
 import string
 import os
 import hashlib
+import logging
 
 app = Flask(__name__)
 
@@ -25,17 +26,17 @@ def filter_cmd(cmd):
 
     for c in command_list:
         if c in cmd:
-            return True
+            print('cmd filtered')
+            #return True
     for c in cmd:
         if c not in alphabet:
-            return True
+            print(c + ' is not in alphabet')
+            #return True
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     # GET request
     return render_template('index.html')
-
-
 
 @app.route('/flag', methods=['POST'])
 def flag():
