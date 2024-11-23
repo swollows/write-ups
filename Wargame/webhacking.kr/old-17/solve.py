@@ -16,9 +16,7 @@ print(ANS)
 
 resp = requests.get(URL + URI + '?' + str(ANS), cookies=COOKIES)
 
-print(resp.text)
+soup = BeautifulSoup(resp.content,"html.parser")
+FLAG = soup.find('script').contents[0]
 
-#soup = BeautifulSoup(resp.content,"html.parser")
-#FLAG = soup.find('script').contents[0]
-
-#print(FLAG)
+print(FLAG)
