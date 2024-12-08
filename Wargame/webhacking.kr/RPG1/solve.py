@@ -12,6 +12,12 @@ COOKIES = {
     'name' : 'PHPSESSID', 'value' : PHPSESSID
 }
 
+"""
+    풀이
+    1. 게임 실행 후 메인 화면 접속하여 RPG Maker의 Javascript API와 VanliaJS의 이벤트 트리거 기능 이용해서 문제 풀이
+    2. RPG Maker의 JS API 사용하여 통과 못하는 오브젝트를 통과 처리 하는 자동화 스크립트 실행
+"""
+
 try : 
     service = Service(executable_path="/chromedriver-linux64/chromedriver")
     options = webdriver.ChromeOptions()
