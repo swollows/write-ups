@@ -1,0 +1,36 @@
+```
+shake_128(flag[{i}:{i+2}]).digest(16) = 3b0bd3fe89516316105da99938edbbe2
+shake_128(flag[{i}:{i+2}]).digest(16) = b83723991d66d3b6db0b70858da5a5f5
+shake_128(flag[{i}:{i+2}]).digest(16) = 8a6fcf5a86900c9a3bddae512690dbff
+shake_128(flag[{i}:{i+2}]).digest(16) = 3fcbee34a62f392ba7e0e901b81bc726
+shake_128(flag[{i}:{i+2}]).digest(16) = fd1d52f6a36647ee0553fab3b4f0a13b
+shake_128(flag[{i}:{i+2}]).digest(16) = 7783ed57a5353194bc7de43393c9ad66
+shake_128(flag[{i}:{i+2}]).digest(16) = 1a175ffe22c3dd482cfdf18713b4dcc5
+shake_128(flag[{i}:{i+2}]).digest(16) = 38faab2978a712b10912e297bf0b4e89
+shake_128(flag[{i}:{i+2}]).digest(16) = c138d468134fe10b7cc79963fb8c68bc
+shake_128(flag[{i}:{i+2}]).digest(16) = e0f824b437cc4fdb87ee8e41f8a26a2f
+shake_128(flag[{i}:{i+2}]).digest(16) = 245cdfbad6cc7bbf7f86c69bb5266b8e
+shake_128(flag[{i}:{i+2}]).digest(16) = e16bf8eeaa3d4686c29d2323f7594bcd
+shake_128(flag[{i}:{i+2}]).digest(16) = 1a175ffe22c3dd482cfdf18713b4dcc5
+shake_128(flag[{i}:{i+2}]).digest(16) = abfea26b14753ace72fd337cda9f3769
+shake_128(flag[{i}:{i+2}]).digest(16) = 1c222f8c3527e2fd2c3ebf27be27dc11
+shake_128(flag[{i}:{i+2}]).digest(16) = 18b61711485a4237de9dafd120d1341c
+shake_128(flag[{i}:{i+2}]).digest(16) = d14624408d85b3c7c26b456dfa53f7ea
+shake_128(flag[{i}:{i+2}]).digest(16) = f048f4ebdc99c876081450cfa68f7ecc
+shake_128(flag[{i}:{i+2}]).digest(16) = 3180fa46486ac779788d935938778ae2
+shake_128(flag[{i}:{i+2}]).digest(16) = 52a95eb9a1d6f8608320db27b6aae032
+shake_128(flag[{i}:{i+2}]).digest(16) = 5766fd9136d7a005d32ed86ef63a5168
+shake_128(flag[{i}:{i+2}]).digest(16) = abe6a87835c82e73dc265b49dab2801d
+shake_128(flag[{i}:{i+2}]).digest(16) = 6af32032d6ee3c8e2a4d06e055a83332
+shake_128(flag[{i}:{i+2}]).digest(16) = 9731eaeb53053cc621afc99d4922c536
+shake_128(flag[{i}:{i+2}]).digest(16) = 74271277021802eee82e6429c0b767b5
+shake_128(flag[{i}:{i+2}]).digest(16) = 064b28aa936ba631e920a192e0141111
+shake_128(flag[{i}:{i+2}]).digest(16) = 51fc99ca21d0ddff692a9314a19574b8
+shake_128(flag[{i}:{i+2}]).digest(16) = 42cbf2a6b8af53669e596a051817fe74
+shake_128(flag[{i}:{i+2}]).digest(16) = 940412e9db4dcfab601fe1e7dcaf0b7e
+shake_128(flag[{i}:{i+2}]).digest(16) = cc806a8e95115d0673b9268db353e080
+shake_128(flag[{i}:{i+2}]).digest(16) = e0f824b437cc4fdb87ee8e41f8a26a2f
+shake_128(flag[{i}:{i+2}]).digest(16) = d5f22624c1c6e69ea2dc7ff9d9e288d9
+shake_128(flag[{i}:{i+2}]).digest(16) = 9d738896cd5926dada86cebb7056cc1e
+shake_128(flag[{i}:{i+2}]).digest(16) = c159413e91eca051a342239e3df3b07b
+```
