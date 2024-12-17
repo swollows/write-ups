@@ -1,0 +1,34 @@
+{
+	"remappings": [
+		"colormap-registry/=lib/colormap-registry/src/",
+		"forge-std/=lib/forge-std/src/",
+		"solady/=lib/solady/src/",
+		"solmate/=lib/solmate/src/",
+		"@/script/=script/",
+		"@/contracts/=src/",
+		"@/test/=test/",
+		"ds-test/=lib/forge-std/lib/ds-test/src/"
+	],
+	"optimizer": {
+		"enabled": true,
+		"runs": 875
+	},
+	"metadata": {
+		"useLiteralContent": false,
+		"bytecodeHash": "none"
+	},
+	"outputSelection": {
+		"*": {
+			"*": [
+				"evm.bytecode",
+				"evm.deployedBytecode",
+				"devdoc",
+				"userdoc",
+				"metadata",
+				"abi"
+			]
+		}
+	},
+	"evmVersion": "london",
+	"libraries": {}
+}
