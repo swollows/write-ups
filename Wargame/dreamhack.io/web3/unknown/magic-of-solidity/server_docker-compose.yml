@@ -1,0 +1,40 @@
+version: "3"
+services:
+  challenge:
+    image: chainflag/solidctf:1.0.0@sha256:226d09d0e19f288548c7a184b720aba611c21f0ea08427081c6d9fc3e0d07180
+    restart: unless-stopped
+    ports:
+      - "20000:20000"
+    env_file:
+      - .env
+    volumes:
+      - ./flag.txt:/ctf/flag.txt
+      - ./contracts:/ctf/contracts
+      - ./challenge.yml:/ctf/challenge.yml
+
+  ethereum:
+    image: chainflag/fogeth:latest@sha256:9019bd5c58b8607080aff1518533aa4566d5df92b57f8140db2afbd03d2cc4c4
+    restart: unless-stopped
+    container_name: fogeth
+    ports:
+      - "8545:8545"
+    env_file:
+      - .env
+    volumes:
+      - ./data:/data
+      - ./logs:/var/log/nginx
+      - ./genesis.json.template:/genesis.json.template
+
+  faucet:
+    image: chainflag/eth-faucet:1.1.0@sha256:ea93b3154384660e04031fe874d6ac32b3c28915b605f680796b603b998b8a08
+    restart: unless-stopped
+    container_name: eth_faucet
+    ports:
+      - "8080:8080"
+    links:
+      - ethereum
+    env_file:
+      - .env
+    entrypoint: ["sh", "-c", "echo sleep 123 && sleep 123 && /app/eth-faucet -wallet.provider http://ethereum:8545 -wallet.privkey ${ALLOC_ADDRESS_PRIVATE_KEY} -faucet.minutes 1"]
+    depends_on:
+      - ethereum
