@@ -9,7 +9,7 @@ import json
 #    스마트 컨트랙트를 호출해서 플래그 획득
 
 # 문제에서 사용하는 각종 정보 추출
-PROB_URL = "http://host3.dreamhack.games:16886"
+PROB_URL = "http://host1.dreamhack.games:19734"
 RPC_URL = "https://sepolia.infura.io/v3/5a182f472a374f20ba4a6a017230aca5"
 
 CONTRACT_ADDRESS_KEYWORD = "const ADDRESS = \""
@@ -101,5 +101,8 @@ FLAG01 = web3.eth.get_storage_at(CONTRACT_ADDRESS, UINT256_One_SHA3_to_HEXSTR)
 
 # 플래그의 길이는 32바이트가 넘어가므로 첫번째 호출한 해시에서 +1한 값으로 두번째 호출
 FLAG02 = web3.eth.get_storage_at(CONTRACT_ADDRESS, UINT256_One_SHA3_plus_One_to_HEXSTR)
+
+print(FLAG01)
+print(FLAG02)
 
 print(FLAG01 + FLAG02)
