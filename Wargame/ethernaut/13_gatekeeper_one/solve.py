@@ -35,8 +35,9 @@ dict_output = parse_env_to_dict(ENV_PATH)
 
 RPC_URI = dict_output['WEB3_PROVIDER_URI']
 
-CONTRACT_ADDRESS = '0x8e80FFe6Dc044F4A766Afd6e5a8732Fe0977A493'
-LEVEL_ADDRESS = '0x' + dict_output['ETHERNAUT_LEVEL09_ADDRESS']
+CONTRACT_ADDRESS = '0xeC4cFde48EAdca2bC63E94BB437BbeAcE1371bF3'
+ATTACKER_ADDRESS = ''
+LEVEL_ADDRESS = '0x' + dict_output['ETHERNAUT_LEVEL13_ADDRESS']
 PRIVATE_KEY = '0x' + dict_output['USER_ADDRESS_PRIVATE_KEY']
 
 web3 = Web3(Web3.HTTPProvider(RPC_URI))
@@ -52,19 +53,28 @@ USER_ADDRESS = PA.address
 
 CONTRACT_ABI = [
     {
-        "type": "constructor",
-        "inputs": [],
-        "stateMutability": "payable",
-        "payable": True
-    },
-    {
-        "type": "receive",
-        "stateMutability": "payable",
-        "payable": True
+        "type": "function",
+        "name": "enter",
+        "inputs": [
+            {
+                "name": "_gateKey",
+                "type": "bytes8",
+                "internalType": "bytes8"
+            }
+        ],
+        "outputs": [
+            {
+                "name": "",
+                "type": "bool",
+                "internalType": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "signature": "0x3370204e"
     },
     {
         "type": "function",
-        "name": "_king",
+        "name": "entrant",
         "inputs": [],
         "outputs": [
             {
@@ -74,48 +84,23 @@ CONTRACT_ABI = [
             }
         ],
         "stateMutability": "view",
-        "constant": True,
-        "signature": "0x29cc6d6f"
-    },
-    {
-        "type": "function",
-        "name": "owner",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "",
-                "type": "address",
-                "internalType": "address"
-            }
-        ],
-        "stateMutability": "view",
-        "constant": True,
-        "signature": "0x8da5cb5b"
-    },
-    {
-        "type": "function",
-        "name": "prize",
-        "inputs": [],
-        "outputs": [
-            {
-                "name": "",
-                "type": "uint256",
-                "internalType": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "constant": True,
-        "signature": "0xe3ac5d26"
+        "constant": true,
+        "signature": "0x9db31d77"
     }
 ]
 
-contract = web3.eth.contract(address=CONTRACT_ADDRESS, abi=CONTRACT_ABI)
+ATTACKER_ABI = []
 
-tx = contract.constructor().build_transaction({
+contract = web3.eth.contract(address=CONTRACT_ADDRESS, abi=CONTRACT_ABI)
+attacker = web3.eth.contract(address=ATTACKER_ADDRESS, abi=ATTACKER_ABI)
+
+print("---- BEFORE TRANSACTION ----")
+
+
+tx = attacker.enter(_gateKey).build_transaction({
     "from": USER_ADDRESS,
-    "value": 1,
-    "gas": 30000,
-    "gasPrice": w3.to_wei(0.5, "ether"),
+    "gas": 8191,
+    "gasPrice": w3.to_wei(0.000001, "ether"),
     "nonce": web3.eth.get_transaction_count(from_address),
 })
 
@@ -126,4 +111,6 @@ print(f"Transaction Hash: {web3.to_hex(tx_hash)}")
 receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
 
 contract_address = receipt.contractAddress
-print(f"Contract deployed at: {contract_address}")
+print(f"Contract deployed at: {contract_address}\n")
+
+print("---- AFTER TRANSACTION ----")
