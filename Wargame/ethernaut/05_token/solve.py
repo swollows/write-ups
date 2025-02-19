@@ -1,4 +1,5 @@
 from web3 import Web3
+from dotenv import dotenv_values
 import requests
 import time
 import json
@@ -13,35 +14,9 @@ import json
 # 3. 2번 작업 진행 시 transfer 함수의 입금 대상 계좌는 현재 레벨 주소로 지정하고 현재 사용자 잔액에서
 #    1을 더한 21만큼의 금액을 transfer 함수에서 입금되도록 유도하면 사용자 잔액에서 오버플로우 발생함.
 
-# 문제에서 사용하는 각종 정보 추출
-def parse_env_to_dict(env_file_path):
-    env_dict = {}
-
-    # Read the .env file line by line
-    with open(env_file_path, "r") as file:
-        for line in file:
-            # Strip whitespace and ignore comments or empty lines
-            line = line.strip()
-            if not line or line.startswith("#"):
-                continue
-
-            # Split key and value on the first '='
-            key, _, value = line.partition("=")
-            key = key.strip()
-            value = value.strip()
-
-            # Remove quotes from the value if present
-            if (value.startswith('"') and value.endswith('"')) or (value.startswith("'") and value.endswith("'")):
-                value = value[1:-1]
-
-            # Add to dictionary
-            env_dict[key] = value
-
-    return env_dict
-
 ENV_PATH = "../.env"
 
-dict_output = parse_env_to_dict(ENV_PATH)
+dict_output = dotenv_values(ENV_PATH)
 
 RPC_URI = dict_output['WEB3_PROVIDER_URI']
 
@@ -54,9 +29,9 @@ web3 = Web3(Web3.HTTPProvider(RPC_URI))
 
 # 연결 확인
 if web3.is_connected():
-    print("Connected to Seth!")
+    print("Connected to Network!")
 else:
-    print("Failed to connect to Seth.")
+    print("Failed to connect to Network.")
     
 PA = web3.eth.account.from_key(USER_PRIVATE_KEY)
 USER_ADDRESS = PA.address

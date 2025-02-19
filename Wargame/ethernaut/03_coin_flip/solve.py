@@ -1,4 +1,6 @@
 from web3 import Web3
+from solcx import compile_source
+from dotenv import dotenv_values
 import time
 
 # 풀이
@@ -6,40 +8,13 @@ import time
 # 2. 생성한 컨트랙트로 네트워크의 동일한 블록 번호를 활용한 데이터를 CoinFlip 컨트랙트의 flip 함수에 전달
 # 3. 전달한 데이터로 동전 앞/뒤 정보를 전달하여 10회 검사 통과하기 
 
-# 문제에서 사용하는 각종 정보 추출
-def parse_env_to_dict(env_file_path):
-    env_dict = {}
-
-    # Read the .env file line by line
-    with open(env_file_path, "r") as file:
-        for line in file:
-            # Strip whitespace and ignore comments or empty lines
-            line = line.strip()
-            if not line or line.startswith("#"):
-                continue
-
-            # Split key and value on the first '='
-            key, _, value = line.partition("=")
-            key = key.strip()
-            value = value.strip()
-
-            # Remove quotes from the value if present
-            if (value.startswith('"') and value.endswith('"')) or (value.startswith("'") and value.endswith("'")):
-                value = value[1:-1]
-
-            # Add to dictionary
-            env_dict[key] = value
-
-    return env_dict
-
 ENV_PATH = "../.env"
 
-dict_output = parse_env_to_dict(ENV_PATH)
+dict_output = dotenv_values(ENV_PATH)
 
 RPC_URI = dict_output['WEB3_PROVIDER_URI']
 
-CONTRACT_ADDRESS = '0x8dAF17A20c9DBA35f005b6324F493785D239719d'
-ATTACKER_ADDRESS = '0x8464135c8F25Da09e49BC8782676a84730C318bC'
+CONTRACT_ADDRESS = '0x94099942864EA81cCF197E9D71ac53310b1468D8'
 PRIVATE_KEY = '0x' + dict_output['USER_ADDRESS_PRIVATE_KEY']
 
 web3 = Web3(Web3.HTTPProvider(RPC_URI))
@@ -90,48 +65,33 @@ CONTRACT_ABI = [
     }
 ]
 
-ATTACKER_ABI = [
-  {
-    "inputs": [
-      {
-        "internalType": "contract CoinFlip",
-        "name": "_coinflipContract",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
-    "inputs": [],
-    "name": "consecutiveWins",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "flip",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  }
-]
+with open("./contract/CoinFlipAttack.sol", "r") as f:
+    ATTACKER_SRC_DATA = f.read()
+
+COMPILED_SOL = compile_source(ATTACKER_SRC_DATA, output_values=['abi', 'bin'])
+
+contract_id, contract_interface = COMPILED_SOL.popitem()
+
+ATTACKER_BYTECODE = contract_interface['bin']
+ATTACKER_ABI = contract_interface['abi']
 
 contract = web3.eth.contract(address=CONTRACT_ADDRESS, abi=CONTRACT_ABI)
-attacker = web3.eth.contract(address=ATTACKER_ADDRESS, abi=ATTACKER_ABI)
+attacker = web3.eth.contract(abi=ATTACKER_ABI, bytecode=ATTACKER_BYTECODE)
+
+# Attacker 컨트랙트 사전 배포
+tx_hash = attacker.constructor(CONTRACT_ADDRESS).transact()
+
+print(f"Transaction Hash: {web3.to_hex(tx_hash)}")
+
+receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
+print(f"Transaction Receipt: {receipt}\n")
+
+ATTACKER_ADDRESS = receipt.contractAddress
+
+# Attacker 컨트랙트 주소 연결
+attacker = web3.eth.contract(address=receipt.contractAddress, abi=ATTACKER_ABI)
+
+print("---- BEFORE TRANSACTION ----")
 
 TOTAL_WINS = contract.functions.consecutiveWins().call()
 

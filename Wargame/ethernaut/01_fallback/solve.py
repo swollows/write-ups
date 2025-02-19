@@ -1,4 +1,5 @@
 from web3 import Web3
+from dotenv import dotenv_values
 import requests
 import json
 
@@ -9,35 +10,9 @@ import json
 # 3. 2번 과정 성공 후 withdraw 함수 실행하여 지갑 잔액 전액 인출 실행
 # 4. 페이지에서 Submit Instance 실행하여 문제 클리어 
 
-# 문제에서 사용하는 각종 정보 추출
-def parse_env_to_dict(env_file_path):
-    env_dict = {}
-
-    # Read the .env file line by line
-    with open(env_file_path, "r") as file:
-        for line in file:
-            # Strip whitespace and ignore comments or empty lines
-            line = line.strip()
-            if not line or line.startswith("#"):
-                continue
-
-            # Split key and value on the first '='
-            key, _, value = line.partition("=")
-            key = key.strip()
-            value = value.strip()
-
-            # Remove quotes from the value if present
-            if (value.startswith('"') and value.endswith('"')) or (value.startswith("'") and value.endswith("'")):
-                value = value[1:-1]
-
-            # Add to dictionary
-            env_dict[key] = value
-
-    return env_dict
-
 ENV_PATH = "../.env"
 
-dict_output = parse_env_to_dict(ENV_PATH)
+dict_output = dotenv_values(ENV_PATH)
 
 RPC_URI = dict_output['WEB3_PROVIDER_URI']
 
@@ -48,9 +23,9 @@ web3 = Web3(Web3.HTTPProvider(RPC_URI))
 
 # 연결 확인
 if web3.is_connected():
-    print("Connected to Seth!")
+    print("Connected to Network!")
 else:
-    print("Failed to connect to Seth.")
+    print("Failed to connect to Network.")
     
 PA = web3.eth.account.from_key(PRIVATE_KEY)
 USER_ADDRESS = PA.address

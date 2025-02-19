@@ -1,43 +1,18 @@
 from web3 import Web3
+from solcx import compile_source
+from dotenv import dotenv_values
 
 # 풀이
 # 1. 
 
-# 문제에서 사용하는 각종 정보 추출
-def parse_env_to_dict(env_file_path):
-    env_dict = {}
-
-    # Read the .env file line by line
-    with open(env_file_path, "r") as file:
-        for line in file:
-            # Strip whitespace and ignore comments or empty lines
-            line = line.strip()
-            if not line or line.startswith("#"):
-                continue
-
-            # Split key and value on the first '='
-            key, _, value = line.partition("=")
-            key = key.strip()
-            value = value.strip()
-
-            # Remove quotes from the value if present
-            if (value.startswith('"') and value.endswith('"')) or (value.startswith("'") and value.endswith("'")):
-                value = value[1:-1]
-
-            # Add to dictionary
-            env_dict[key] = value
-
-    return env_dict
-
 ENV_PATH = "../.env"
 
-dict_output = parse_env_to_dict(ENV_PATH)
+dict_output = dotenv_values(ENV_PATH)
 
 RPC_URI = dict_output['WEB3_PROVIDER_URI']
 
 
-CONTRACT_ADDRESS = '0x94099942864EA81cCF197E9D71ac53310b1468D8'
-ATTACKER_ADDRESS = '0x948B3c65b89DF0B4894ABE91E6D02FE579834F8F'
+CONTRACT_ADDRESS = '0x6F1216D1BFe15c98520CA1434FC1d9D57AC95321'
 LEVEL_ADDRESS = '0x' + dict_output['ETHERNAUT_LEVEL07_ADDRESS']
 USER_PRIVATE_KEY = '0x' + dict_output['USER_ADDRESS_PRIVATE_KEY']
 
@@ -45,34 +20,45 @@ web3 = Web3(Web3.HTTPProvider(RPC_URI))
 
 # 연결 확인
 if web3.is_connected():
-    print("Connected to Seth!")
+    print("Connected to Network!")
 else:
-    print("Failed to connect to Seth.")
+    print("Failed to connect to Network.")
     
 PA = web3.eth.account.from_key(USER_PRIVATE_KEY)
 USER_ADDRESS = PA.address
 
-ATTACKER_ABI = [
-  {
-    "inputs": [
-      {
-        "internalType": "contract Force",
-        "name": "_forceContract",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
-    "inputs": [],
-    "name": "attack",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  }
-]
+CONTRACT_ABI = []
 
+with open("./contract/ForceAttack.sol", "r") as f:
+    ATTACKER_SRC_DATA = f.read()
+
+COMPILED_SOL = compile_source(ATTACKER_SRC_DATA, output_values=['abi', 'bin'])
+
+contract_id, contract_interface = COMPILED_SOL.popitem()
+
+ATTACKER_BYTECODE = contract_interface['bin']
+ATTACKER_ABI = contract_interface['abi']
+
+contract = web3.eth.contract(address=CONTRACT_ADDRESS, abi=CONTRACT_ABI)
+attacker = web3.eth.contract(abi=ATTACKER_ABI, bytecode=ATTACKER_BYTECODE)
+
+print("---- BEFORE TRANSACTION ----")
+
+BEFORE_BALANCE = web3.eth.get_balance(CONTRACT_ADDRESS)
+
+print(f"Contract's current balance : {BEFORE_BALANCE}")
+
+# Attacker 컨트랙트 사전 배포
+tx_hash = attacker.constructor(CONTRACT_ADDRESS).transact()
+
+print(f"Transaction Hash: {web3.to_hex(tx_hash)}")
+
+receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
+print(f"Transaction Receipt: {receipt}\n")
+
+ATTACKER_ADDRESS = receipt.contractAddress
+
+# Attacker 컨트랙트 주소 연결
 attacker = web3.eth.contract(address=ATTACKER_ADDRESS, abi=ATTACKER_ABI)
 
 # 컨트랙트를 통한 송금 실시
@@ -93,4 +79,15 @@ print(f"Transaction Hash: {web3.to_hex(tx_hash)}")
 
 # 트랜잭션 결과 확인
 tx_receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
-print(f"Transaction Receipt: {tx_receipt}")
+print(f"Transaction Receipt: {tx_receipt}\n")
+
+print("---- AFTER TRANSACTION ----")
+
+AFTER_BALANCE = web3.eth.get_balance(CONTRACT_ADDRESS)
+
+print(f"Contract's current balance : {AFTER_BALANCE}")
+
+if AFTER_BALANCE > 0:
+  print("Attack Success!")
+else:
+  print("Attack Failed...")

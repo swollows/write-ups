@@ -42,9 +42,9 @@ web3 = Web3(Web3.HTTPProvider(RPC_URI))
 
 # 연결 확인
 if web3.is_connected():
-    print("Connected to Seth!")
+    print("Connected to Network!")
 else:
-    print("Failed to connect to Seth.")
+    print("Failed to connect to Network.")
     
 PA = web3.eth.account.from_key(PRIVATE_KEY)
 USER_ADDRESS = PA.address
