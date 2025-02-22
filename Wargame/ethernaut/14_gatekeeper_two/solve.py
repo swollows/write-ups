@@ -3,16 +3,13 @@ from solcx import compile_source
 from dotenv import dotenv_values
 import os
 
-# 풀이
-# 1.
-
 ENV_PATH = "../.env"
 
 dict_output = dotenv_values(ENV_PATH)
 
 RPC_URI = dict_output["WEB3_PROVIDER_URI"]
 
-CONTRACT_ADDRESS = "0xa12fFA0B9f159BB4C54bce579611927Addc51610"
+CONTRACT_ADDRESS = "0xeC4cFde48EAdca2bC63E94BB437BbeAcE1371bF3"
 LEVEL_ADDRESS = "0x" + dict_output["ETHERNAUT_LEVEL14_ADDRESS"]
 USER_PRIVATE_KEY = "0x" + dict_output["USER_ADDRESS_PRIVATE_KEY"]
 CA_PRIVATE_KEY = "0x" + dict_output["CA_ADDRESS_PRIVATE_KEY"]

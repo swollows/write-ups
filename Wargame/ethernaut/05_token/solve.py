@@ -20,8 +20,7 @@ dict_output = dotenv_values(ENV_PATH)
 
 RPC_URI = dict_output['WEB3_PROVIDER_URI']
 
-
-CONTRACT_ADDRESS = '0x1F708C24a0D3A740cD47cC0444E9480899f3dA7D'
+CONTRACT_ADDRESS = '0x7e2d5FCC5E02cBF2b9f860052C0226104E23F9c7'
 LEVEL_ADDRESS = '0x' + dict_output['ETHERNAUT_LEVEL05_ADDRESS']
 USER_PRIVATE_KEY = '0x' + dict_output['USER_ADDRESS_PRIVATE_KEY']
 
@@ -113,6 +112,13 @@ CONTRACT_ABI = [
 
 contract = web3.eth.contract(address=CONTRACT_ADDRESS, abi=CONTRACT_ABI)
 
+print("---- BEFORE TRANSACTION ----")
+
+# 잔액 정보 확인
+USER_BALANCE = contract.functions.balanceOf(USER_ADDRESS).call()
+
+print(f'User Balance Information Before Attack: {USER_BALANCE}\n')
+
 # 값을 할당하지 않은 컨트랙트를 대상으로 현재 사용자 지갑에 전송 준비
 data = {
     'gas': 300000,
@@ -130,7 +136,9 @@ print(f"Transaction Hash: {web3.to_hex(tx_hash)}")
 
 # 트랜잭션 결과 확인
 tx_receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
-print(f"Transaction Receipt: {tx_receipt}")
+print(f"Transaction Receipt: {tx_receipt}\n")
+
+print("---- AFTER TRANSACTION ----")
 
 # 잔액 정보 확인
 USER_BALANCE = contract.functions.balanceOf(USER_ADDRESS).call()

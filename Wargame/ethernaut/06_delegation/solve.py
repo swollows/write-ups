@@ -14,9 +14,9 @@ dict_output = dotenv_values(ENV_PATH)
 RPC_URI = dict_output['WEB3_PROVIDER_URI']
 
 
-CONTRACT_ADDRESS = '0xdAD42D43ecE0f6e8da8c2BCbC6A25FF6b3922C58'
+CONTRACT_ADDRESS = '0xe082b26cEf079a095147F35c9647eC97c2401B83'
 LEVEL_ADDRESS = '0x' + dict_output['ETHERNAUT_LEVEL06_ADDRESS']
-USER_PRIVATE_KEY = '0x' + dict_output['USER_ADDRESS_PRIVATE_KEY']
+PRIVATE_KEY = '0x' + dict_output['USER_ADDRESS_PRIVATE_KEY']
 
 web3 = Web3(Web3.HTTPProvider(RPC_URI))
 
@@ -26,7 +26,7 @@ if web3.is_connected():
 else:
     print("Failed to connect to Network.")
     
-PA = web3.eth.account.from_key(USER_PRIVATE_KEY)
+PA = web3.eth.account.from_key(PRIVATE_KEY)
 USER_ADDRESS = PA.address
 
 CONTRACT_ABI = [
@@ -86,8 +86,11 @@ data = {
 
 tx = contract.functions.pwn().build_transaction(data)
 
+print(tx)
+print(f'tx["data"] : {tx["data"]}\n')
+
 # 트랜젝션 서명 및 전송
-signed_tx = web3.eth.account.sign_transaction(tx, USER_PRIVATE_KEY)
+signed_tx = web3.eth.account.sign_transaction(tx, PRIVATE_KEY)
 tx_hash = web3.eth.send_raw_transaction(signed_tx.raw_transaction)
 
 print(f"Transaction Hash: {web3.to_hex(tx_hash)}")

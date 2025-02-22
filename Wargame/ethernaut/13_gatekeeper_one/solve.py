@@ -2,16 +2,13 @@ from web3 import Web3
 from solcx import compile_source
 from dotenv import dotenv_values
 
-# 풀이
-# 1. 
-
 ENV_PATH = "../.env"
 
 dict_output = dotenv_values(ENV_PATH)
 
 RPC_URI = dict_output['WEB3_PROVIDER_URI']
 
-CONTRACT_ADDRESS = '0x2b961E3959b79326A8e7F64Ef0d2d825707669b5'
+CONTRACT_ADDRESS = '0xa12fFA0B9f159BB4C54bce579611927Addc51610'
 LEVEL_ADDRESS = '0x' + dict_output['ETHERNAUT_LEVEL13_ADDRESS']
 PRIVATE_KEY = '0x' + dict_output['USER_ADDRESS_PRIVATE_KEY']
 
@@ -87,7 +84,6 @@ print(f"Transaction Receipt: {receipt}\n")
 attacker = web3.eth.contract(address=receipt.contractAddress, abi=ATTACKER_ABI)
 
 print("---- BEFORE TRANSACTION ----")
-
 BEFORE_ENTRANT = contract.functions.entrant.call()
 
 print(f"entrant (Before Transaction) : {BEFORE_ENTRANT}\n")
