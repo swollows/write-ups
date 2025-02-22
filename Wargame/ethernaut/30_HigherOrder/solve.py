@@ -8,8 +8,8 @@ dict_output = dotenv_values(ENV_PATH)
 
 RPC_URI = dict_output['WEB3_PROVIDER_URI']
 
-CONTRACT_ADDRESS = '0xDa1A2E33BD9E8ae3641A61ab72f137e61A7edf6e'
-LEVEL_ADDRESS = '0x' + dict_output['ETHERNAUT_LEVEL29_ADDRESS']
+CONTRACT_ADDRESS = '0x4F57F9239eFCBf43e5920f579D03B3849C588396'
+LEVEL_ADDRESS = '0x' + dict_output['ETHERNAUT_LEVEL30_ADDRESS']
 PRIVATE_KEY = '0x' + dict_output['USER_ADDRESS_PRIVATE_KEY']
 
 web3 = Web3(Web3.HTTPProvider(RPC_URI))
@@ -23,7 +23,7 @@ else:
 PA = web3.eth.account.from_key(PRIVATE_KEY)
 USER_ADDRESS = PA.address
 
-with open("./contract/SwitchAttack.sol", "r") as f:
+with open("./contract/HigherOrderAttack.sol", "r") as f:
     ATTACKER_SRC_DATA = f.read()
 
 COMPILED_SOL = compile_source(ATTACKER_SRC_DATA, optimize=False, output_values=['abi', 'bin'])

