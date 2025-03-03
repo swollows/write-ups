@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import "forge-std/console.sol";
-
 interface ISolver {
     function submit(uint256 answer) external;
 }
@@ -20,15 +18,10 @@ contract Prover {
     }
 
     function submitSolver(address _solver) external {
-        console.log("msg.sender : ", msg.sender);
-        console.log("solver : ", _solver);
         solver = _solver;
     }
     
     function prove(uint256 answer) external {
-        console.log("msg.sender : ", msg.sender);
-        console.log("solver : ", solver);
-
         require(msg.sender == solver);
         if(answer == secret) {
             solved = 1;
