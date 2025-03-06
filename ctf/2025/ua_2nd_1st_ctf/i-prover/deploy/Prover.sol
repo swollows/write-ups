@@ -20,15 +20,10 @@ contract Prover {
     }
 
     function submitSolver(address _solver) external {
-        console.log("msg.sender : ", msg.sender);
-        console.log("solver : ", _solver);
         solver = _solver;
     }
     
     function prove(uint256 answer) external {
-        console.log("msg.sender : ", msg.sender);
-        console.log("solver : ", solver);
-
         require(msg.sender == solver);
         if(answer == secret) {
             solved = 1;

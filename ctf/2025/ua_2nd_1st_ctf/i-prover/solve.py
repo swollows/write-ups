@@ -1,4 +1,3 @@
-from solcx import compile_source
 from web3 import Web3
 import os
 import re
@@ -7,7 +6,7 @@ import requests
 import json
 
 # 문제에서 사용하는 각종 정보 추출
-MAIN_URL = "http://host1.dreamhack.games:20517"
+MAIN_URL = "http://host1.dreamhack.games:12228"
 
 START_URL = f"{MAIN_URL}/start"
 

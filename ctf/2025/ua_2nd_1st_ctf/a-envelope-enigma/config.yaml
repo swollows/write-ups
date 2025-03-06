@@ -1,0 +1,19 @@
+accounts:
+  - name: owner
+    balance: 15ether
+  - name: user
+    balance: 0.01ether
+
+deployments:
+  - name: level_contract
+    path: "./src/Challenge.sol:Challenge"
+    private_key: owner_private_key
+    value: 10ether
+
+exposed:
+  - level_contract_address
+  - user_private_key
+  - user_address
+
+verifier: "python /app/verifier.py"
+flag_path: /app/flag.txt

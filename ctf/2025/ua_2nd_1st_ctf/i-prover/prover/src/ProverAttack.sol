@@ -2,7 +2,7 @@
 pragma solidity ^0.8.13;
 
 import "./Prover.sol";
-import "forge-std/console.sol";
+
 contract ProverAttack {
     address prover;
     
@@ -11,14 +11,12 @@ contract ProverAttack {
     }
 
     function submitSolver() external {
-        Prover(prover).submitSolver(msg.sender);
+        Prover(prover).submitSolver(address(this));
     }
 
     function solve() external {
-        for(uint8 i = 0; i <= 0xff; i++) {
-            console.log("i : ", i);
-            ISolver(prover).submit(uint256(i));
-//            Prover(prover).prove(uint256(i));
+        for(uint8 i = 0; i < 0xff; i++) {
+            Prover(prover).prove(uint256(i));
         }
     }
 }

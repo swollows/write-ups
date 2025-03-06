@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: solve
+  namespace: default
+spec:
+  containers:
+  - name: solve
+    image: alpine:latest
+    command: ["sleep", "3600"]
+    volumeMounts:
+    - name: hostfs
+      mountPath: /host
+  volumes:
+  - name: hostfs
+    hostPath:
+      path: /
