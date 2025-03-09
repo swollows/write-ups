@@ -1,1 +1,0 @@
-gcc -fstack-protector -no-pie  canary.c -o canary

@@ -47,11 +47,8 @@ contract UniswapV2Test is Test {
     }
 
     function test_attack() external {
-        vm.startPrank(hacker);
-        
-        console.log("Call swap");
 
-        pair.swap(99.1 ether, 99.1 ether, address(attack), bytes("1"));
+        pair.swap(99 ether, 99 ether, address(attack), bytes("1"));
 
         vm.stopPrank();
     }
@@ -90,10 +87,13 @@ contract UniswapV2AttackTest is Test {
         console.log("\n------------BEFORE TRANSFER------------");
         console.log("uniswapV2Call - address(this)(UniswapV2AttackTest) token0:", token0.balanceOf(address(this)) / 10 ** 17);
         console.log("uniswapV2Call - address(this)(UniswapV2AttackTest) token1:", token1.balanceOf(address(this)) / 10 ** 17);
+        console.log("uniswapV2Call - address(this)(UniswapV2AttackTest) pair:", pair.balanceOf(address(this)) / 10 ** 17);
         console.log("uniswapV2Call - msg.sender(UniswapV2Pair) token0:", token0.balanceOf(msg.sender) / 10 ** 17);
         console.log("uniswapV2Call - msg.sender(UniswapV2Pair) token1:", token1.balanceOf(msg.sender) / 10 ** 17);
+        console.log("uniswapV2Call - msg.sender(UniswapV2Pair) pair:", pair.balanceOf(msg.sender) / 10 ** 17);
         console.log("uniswapV2Call - hacker token0:", token0.balanceOf(hacker) / 10 ** 17);
         console.log("uniswapV2Call - hacker token1:", token1.balanceOf(hacker) / 10 ** 17);
+        console.log("uniswapV2Call - hacker pair:", pair.balanceOf(hacker) / 10 ** 17);
 
         token0.approve(address(this), amount0);
         token0.transferFrom(address(this), msg.sender, amount0);
@@ -101,14 +101,20 @@ contract UniswapV2AttackTest is Test {
         token1.approve(address(this), amount1);
         token1.transferFrom(address(this), msg.sender, amount1);
 
+/*
+        if (token0.balanceOf(addre))
+            pair.swap(1 ether, 1 ether, address(this), bytes("1"));
+*/
+
         console.log("\n------------AFTER TRANSFER------------");
         console.log("uniswapV2Call - address(this)(UniswapV2AttackTest) token0:", token0.balanceOf(address(this)) / 10 ** 17);
         console.log("uniswapV2Call - address(this)(UniswapV2AttackTest) token1:", token1.balanceOf(address(this)) / 10 ** 17);
+        console.log("uniswapV2Call - address(this)(UniswapV2AttackTest) pair:", pair.balanceOf(address(this)) / 10 ** 17);
         console.log("uniswapV2Call - msg.sender(UniswapV2Pair) token0:", token0.balanceOf(msg.sender) / 10 ** 17);
         console.log("uniswapV2Call - msg.sender(UniswapV2Pair) token1:", token1.balanceOf(msg.sender) / 10 ** 17);
+        console.log("uniswapV2Call - msg.sender(UniswapV2Pair) pair:", pair.balanceOf(msg.sender) / 10 ** 17);
         console.log("uniswapV2Call - hacker token0:", token0.balanceOf(hacker) / 10 ** 17);
         console.log("uniswapV2Call - hacker token1:", token1.balanceOf(hacker) / 10 ** 17);
-
-        pair.mint(address(this));
+        console.log("uniswapV2Call - hacker pair:", pair.balanceOf(hacker) / 10 ** 17);
     }
 }
