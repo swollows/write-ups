@@ -1,0 +1,9 @@
+version: "3"
+
+services:
+  pew:
+    build:
+      context: ./
+    ports:
+       - "4321:4321"
+    restart: always

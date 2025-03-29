@@ -1,0 +1,20 @@
+#!/bin/sh
+
+mount -t sysfs -o nodev,noexec,nosuid sysfs /sys
+mount -t proc -o nodev,noexec,nosuid proc /proc
+mount -t tmpfs -o noexec,nosuid,mode=0755 tmpfs /tmp
+mount -t devtmpfs -o nosuid,mode=0755 udev /dev
+
+exec 0</dev/console
+exec 1>/dev/console
+exec 2>/dev/console
+echo 1 > /proc/sys/kernel/kptr_restrict
+echo 1 > /proc/sys/kernel/dmesg_restrict
+
+insmod /pew.ko
+chmod 666 /dev/pew
+chmod 600 /flag
+chown ctf:ctf /home/ctf/exploit
+su ctf -c "cd /home/ctf; /bin/sh"
+
+poweroff -f

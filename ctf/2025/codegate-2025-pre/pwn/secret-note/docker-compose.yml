@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  secret_note:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "13378:13378"
+    restart: always
+    platform: linux/amd64
