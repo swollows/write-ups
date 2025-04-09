@@ -1,0 +1,3 @@
+[submodule "Wargame/dreamhack.io/web3/level2/sc-make-boko-winner/boko-chal/lib/forge-std"]
+	path = Wargame/dreamhack.io/web3/level2/sc-make-boko-winner/boko-chal/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std

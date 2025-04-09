@@ -1,0 +1,92 @@
+Compiling 1 files with Solc 0.8.28
+Solc 0.8.28 finished in 385.87ms
+Compiler run successful with warnings:
+Warning (9302): Return value of low-level calls not used.
+  --> test/Contract.t.sol:21:13:
+   |
+21 |             address(target).call(abi.encodeWithSignature("runVote()"));
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Warning (9302): Return value of low-level calls not used.
+  --> test/Contract.t.sol:56:9:
+   |
+56 |         address(level).call{value: 1 ether}(abi.encodeWithSignature("register(address)", address(attacker)));
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Warning (9302): Return value of low-level calls not used.
+  --> test/Contract.t.sol:60:13:
+   |
+60 |             address(level).call{value: 1 ether}(abi.encodeWithSignature("register(address)", address(nando)));
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Warning (9302): Return value of low-level calls not used.
+  --> test/Contract.t.sol:64:13:
+   |
+64 |             address(level).call{value: 1 ether}(abi.encodeWithSignature("register(address)", address(amo)));
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+Ran 1 test for test/Contract.t.sol:Testing
+[PASS] test_solve() (gas: 627078)
+Logs:
+  true
+  0
+  true
+  0
+  true
+  0
+  true
+  0
+  true
+  0
+  true
+  2
+  true
+  2
+  true
+  2
+  true
+  2
+  true
+  2
+  true
+  2
+  true
+  2
+  true
+  2
+  true
+  2
+  true
+  2
+  true
+  1
+  true
+  1
+  true
+  1
+  true
+  1
+  true
+  1
+  true
+  1
+  true
+  1
+  true
+  1
+  true
+  1
+  true
+  1
+  true
+  1
+  true
+  1
+  Amo: 5
+  Boko: 12
+  Nando: 10
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 5.27ms (1.15ms CPU time)
+
+Ran 1 test suite in 102.87ms (5.27ms CPU time): 1 tests passed, 0 failed, 0 skipped (1 total tests)
