@@ -1,0 +1,22 @@
+accounts:
+  - name: owner
+    balance: 10ether
+  - name: user
+    balance: 10ether
+
+deployments:
+  - name: dreamidle_contract
+    path: "./src/DreamIdle.sol:DreamIdle"
+    private_key: owner_private_key
+
+exposed:
+  - dreamidle_contract_address
+  - user_private_key
+  - user_address
+
+anvil-options:
+  - name: hardfork
+    value: shanghai
+
+verifier: python3 /app/verifier.py
+flag_path: /app/flag.txt
