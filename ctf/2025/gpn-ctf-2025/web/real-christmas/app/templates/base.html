@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}My App{% endblock %}</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f7f7f7;
+        margin: 0;
+        padding: 0;
+      }
+      nav {
+        background: #333;
+        padding: 10px 0;
+        text-align: center;
+      }
+      nav a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 15px;
+        font-weight: bold;
+      }
+      nav a:hover {
+        text-decoration: underline;
+      }
+      main {
+        max-width: 400px;
+        margin: 40px auto;
+        background: #fff;
+        padding: 24px 32px 32px 32px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      input[type="text"],
+      input[type="email"],
+      input[type="password"] {
+        padding: 8px;
+        border: 1px solid #bbb;
+        border-radius: 4px;
+        font-size: 1em;
+      }
+      button,
+      input[type="submit"] {
+        background: #333;
+        color: #fff;
+        border: none;
+        padding: 10px;
+        border-radius: 4px;
+        font-size: 1em;
+        cursor: pointer;
+      }
+      button:hover,
+      input[type="submit"]:hover {
+        background: #555;
+      }
+      .error {
+        background: #ffe0e0;
+        color: #a00;
+        border: 1px solid #f5c2c2;
+        padding: 8px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+      }
+      .success {
+        background: #e0ffe0;
+        color: #0a0;
+        border: 1px solid #b2f5c2;
+        padding: 8px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/register">Register</a>
+      <a href="/login">Login</a>
+      <a href="/flag">Flag</a>
+    </nav>
+    <main>
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div class="{{ category }}">
+        <p>{{ message }}</p>
+      </div>
+      {% endfor %} {% endif %} {% endwith %} {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>

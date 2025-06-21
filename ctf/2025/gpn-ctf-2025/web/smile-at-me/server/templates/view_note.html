@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}View Note{% endblock %}
+{% block content %}
+<div>
+  <aside>
+    <h3>My Notes</h3>
+    <ul>
+      {% for nid, title in user_notes %}
+        <li{% if nid == note_id %} class="active"{% endif %}>
+          <a href="{{url_for('view_note', note_id=nid)}}">{{title}}</a>
+        </li>
+      {% endfor %}
+    </ul>
+    <p><a href="{{url_for('new_note')}}">New Note</a></p>
+  </aside>
+  <main>
+    <h2>{{note.title}}</h2>
+    <pre>{{note.content}}</pre>
+    {% if note.image_url %}
+      <img src={{note.image_url}} alt="Your favorit Image">
+    {% endif %}
+  </main>
+</div>
+{% endblock %}

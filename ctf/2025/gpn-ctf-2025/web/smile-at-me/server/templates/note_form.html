@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}New Note{% endblock %}
+{% block content %}
+<h2>New Note</h2>
+<form method="post">
+  <label>Title:</label>
+  <input name="title" required>
+  <label>Content:
+    <textarea id="noteContent" name="content" rows="5" required></textarea>
+  </label>
+  <label>Pick your favorit emojis:
+    <div id="emojiPicker" class="emoji-picker__container">
+         {% for emoji in emojis %}
+            <button type="button" class="emoji-picker__emoji"  tabindex="-1" data-emoji="{{ emoji }}">{{ emoji }}</button>
+        {% endfor %}
+    </div>
+  </label>
+  </br>
+  <label>Share your favorit image:</label>
+  <input name="image_url">
+  </br>
+  <button type="submit">Save</button>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='emoji_picker_logic.js') }}"></script>
+{% endblock %}

