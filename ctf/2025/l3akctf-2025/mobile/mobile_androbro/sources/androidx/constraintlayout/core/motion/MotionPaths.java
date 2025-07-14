@@ -1,0 +1,939 @@
+package androidx.constraintlayout.core.motion;
+
+import androidx.constraintlayout.core.motion.key.MotionKeyPosition;
+import androidx.constraintlayout.core.motion.utils.Easing;
+import java.util.Arrays;
+import java.util.HashMap;
+
+public class MotionPaths implements Comparable<MotionPaths> {
+    public static final int CARTESIAN = 0;
+    public static final boolean DEBUG = false;
+    static final int OFF_HEIGHT = 4;
+    static final int OFF_PATH_ROTATE = 5;
+    static final int OFF_POSITION = 0;
+    static final int OFF_WIDTH = 3;
+    static final int OFF_X = 1;
+    static final int OFF_Y = 2;
+    public static final boolean OLD_WAY = false;
+    public static final int PERPENDICULAR = 1;
+    public static final int SCREEN = 2;
+    public static final String TAG = "MotionPaths";
+    static String[] sNames = {"position", "x", "y", "width", "height", "pathRotate"};
+    int mAnimateCircleAngleTo;
+    String mAnimateRelativeTo = null;
+    HashMap<String, CustomVariable> mCustomAttributes = new HashMap<>();
+    int mDrawPath = 0;
+    float mHeight;
+    public String mId;
+    Easing mKeyFrameEasing;
+    int mMode = 0;
+    int mPathMotionArc = -1;
+    float mPathRotate = Float.NaN;
+    float mPosition;
+    float mProgress = Float.NaN;
+    float mRelativeAngle = Float.NaN;
+    Motion mRelativeToController = null;
+    double[] mTempDelta = new double[18];
+    double[] mTempValue = new double[18];
+    float mTime;
+    float mWidth;
+    float mX;
+    float mY;
+
+    public MotionPaths() {
+    }
+
+    /* access modifiers changed from: package-private */
+    public void initCartesian(MotionKeyPosition c, MotionPaths startTimePoint, MotionPaths endTimePoint) {
+        MotionKeyPosition motionKeyPosition = c;
+        MotionPaths motionPaths = startTimePoint;
+        MotionPaths motionPaths2 = endTimePoint;
+        float position = ((float) motionKeyPosition.mFramePosition) / 100.0f;
+        this.mTime = position;
+        this.mDrawPath = motionKeyPosition.mDrawPath;
+        float scaleWidth = Float.isNaN(motionKeyPosition.mPercentWidth) ? position : motionKeyPosition.mPercentWidth;
+        float scaleHeight = Float.isNaN(motionKeyPosition.mPercentHeight) ? position : motionKeyPosition.mPercentHeight;
+        float scaleX = motionPaths2.mWidth - motionPaths.mWidth;
+        float scaleY = motionPaths2.mHeight - motionPaths.mHeight;
+        this.mPosition = this.mTime;
+        float path = position;
+        float startCenterX = motionPaths.mX + (motionPaths.mWidth / 2.0f);
+        float startCenterY = motionPaths.mY + (motionPaths.mHeight / 2.0f);
+        float position2 = position;
+        float pathVectorX = (motionPaths2.mX + (motionPaths2.mWidth / 2.0f)) - startCenterX;
+        float pathVectorY = (motionPaths2.mY + (motionPaths2.mHeight / 2.0f)) - startCenterY;
+        this.mX = (float) ((int) ((motionPaths.mX + (pathVectorX * path)) - ((scaleX * scaleWidth) / 2.0f)));
+        this.mY = (float) ((int) ((motionPaths.mY + (pathVectorY * path)) - ((scaleY * scaleHeight) / 2.0f)));
+        this.mWidth = (float) ((int) (motionPaths.mWidth + (scaleX * scaleWidth)));
+        this.mHeight = (float) ((int) (motionPaths.mHeight + (scaleY * scaleHeight)));
+        float dxdx = Float.isNaN(motionKeyPosition.mPercentX) ? position2 : motionKeyPosition.mPercentX;
+        float f = 0.0f;
+        float dydx = Float.isNaN(motionKeyPosition.mAltPercentY) ? 0.0f : motionKeyPosition.mAltPercentY;
+        float dydy = Float.isNaN(motionKeyPosition.mPercentY) ? position2 : motionKeyPosition.mPercentY;
+        float f2 = path;
+        if (!Float.isNaN(motionKeyPosition.mAltPercentX)) {
+            f = motionKeyPosition.mAltPercentX;
+        }
+        float dxdy = f;
+        float f3 = startCenterX;
+        this.mMode = 0;
+        this.mX = (float) ((int) (((motionPaths.mX + (pathVectorX * dxdx)) + (pathVectorY * dxdy)) - ((scaleX * scaleWidth) / 2.0f)));
+        this.mY = (float) ((int) (((motionPaths.mY + (pathVectorX * dydx)) + (pathVectorY * dydy)) - ((scaleY * scaleHeight) / 2.0f)));
+        this.mKeyFrameEasing = Easing.getInterpolator(motionKeyPosition.mTransitionEasing);
+        this.mPathMotionArc = motionKeyPosition.mPathMotionArc;
+    }
+
+    public MotionPaths(int parentWidth, int parentHeight, MotionKeyPosition c, MotionPaths startTimePoint, MotionPaths endTimePoint) {
+        if (startTimePoint.mAnimateRelativeTo != null) {
+            initPolar(parentWidth, parentHeight, c, startTimePoint, endTimePoint);
+            return;
+        }
+        switch (c.mPositionType) {
+            case 1:
+                initPath(c, startTimePoint, endTimePoint);
+                return;
+            case 2:
+                initScreen(parentWidth, parentHeight, c, startTimePoint, endTimePoint);
+                return;
+            default:
+                initCartesian(c, startTimePoint, endTimePoint);
+                return;
+        }
+    }
+
+    /* access modifiers changed from: package-private */
+    public void initPolar(int parentWidth, int parentHeight, MotionKeyPosition c, MotionPaths s, MotionPaths e) {
+        float f;
+        float position = ((float) c.mFramePosition) / 100.0f;
+        this.mTime = position;
+        this.mDrawPath = c.mDrawPath;
+        this.mMode = c.mPositionType;
+        float scaleWidth = Float.isNaN(c.mPercentWidth) ? position : c.mPercentWidth;
+        float scaleHeight = Float.isNaN(c.mPercentHeight) ? position : c.mPercentHeight;
+        float scaleX = e.mWidth - s.mWidth;
+        float scaleY = e.mHeight - s.mHeight;
+        this.mPosition = this.mTime;
+        this.mWidth = (float) ((int) (s.mWidth + (scaleX * scaleWidth)));
+        this.mHeight = (float) ((int) (s.mHeight + (scaleY * scaleHeight)));
+        float f2 = 1.0f - position;
+        float f3 = position;
+        switch (c.mPositionType) {
+            case 1:
+                this.mX = ((Float.isNaN(c.mPercentX) ? position : c.mPercentX) * (e.mX - s.mX)) + s.mX;
+                this.mY = ((Float.isNaN(c.mPercentY) ? position : c.mPercentY) * (e.mY - s.mY)) + s.mY;
+                break;
+            case 2:
+                if (Float.isNaN(c.mPercentX)) {
+                    f = ((e.mX - s.mX) * position) + s.mX;
+                } else {
+                    f = c.mPercentX * Math.min(scaleHeight, scaleWidth);
+                }
+                this.mX = f;
+                this.mY = Float.isNaN(c.mPercentY) ? ((e.mY - s.mY) * position) + s.mY : c.mPercentY;
+                break;
+            default:
+                this.mX = ((Float.isNaN(c.mPercentX) ? position : c.mPercentX) * (e.mX - s.mX)) + s.mX;
+                this.mY = ((Float.isNaN(c.mPercentY) ? position : c.mPercentY) * (e.mY - s.mY)) + s.mY;
+                break;
+        }
+        this.mAnimateRelativeTo = s.mAnimateRelativeTo;
+        this.mKeyFrameEasing = Easing.getInterpolator(c.mTransitionEasing);
+        this.mPathMotionArc = c.mPathMotionArc;
+    }
+
+    public void setupRelative(Motion mc, MotionPaths relative) {
+        double dx = (double) (((this.mX + (this.mWidth / 2.0f)) - relative.mX) - (relative.mWidth / 2.0f));
+        double dy = (double) (((this.mY + (this.mHeight / 2.0f)) - relative.mY) - (relative.mHeight / 2.0f));
+        this.mRelativeToController = mc;
+        this.mX = (float) Math.hypot(dy, dx);
+        if (Float.isNaN(this.mRelativeAngle)) {
+            this.mY = (float) (Math.atan2(dy, dx) + 1.5707963267948966d);
+        } else {
+            this.mY = (float) Math.toRadians((double) this.mRelativeAngle);
+        }
+    }
+
+    /* access modifiers changed from: package-private */
+    public void initScreen(int parentWidth, int parentHeight, MotionKeyPosition c, MotionPaths startTimePoint, MotionPaths endTimePoint) {
+        MotionKeyPosition motionKeyPosition = c;
+        MotionPaths motionPaths = startTimePoint;
+        MotionPaths motionPaths2 = endTimePoint;
+        float position = ((float) motionKeyPosition.mFramePosition) / 100.0f;
+        this.mTime = position;
+        this.mDrawPath = motionKeyPosition.mDrawPath;
+        float scaleWidth = Float.isNaN(motionKeyPosition.mPercentWidth) ? position : motionKeyPosition.mPercentWidth;
+        float scaleHeight = Float.isNaN(motionKeyPosition.mPercentHeight) ? position : motionKeyPosition.mPercentHeight;
+        float scaleX = motionPaths2.mWidth - motionPaths.mWidth;
+        float scaleY = motionPaths2.mHeight - motionPaths.mHeight;
+        this.mPosition = this.mTime;
+        float path = position;
+        float startCenterX = motionPaths.mX + (motionPaths.mWidth / 2.0f);
+        float startCenterY = motionPaths.mY + (motionPaths.mHeight / 2.0f);
+        float endCenterX = motionPaths2.mX + (motionPaths2.mWidth / 2.0f);
+        float f = position;
+        float endCenterY = motionPaths2.mY + (motionPaths2.mHeight / 2.0f);
+        float pathVectorX = endCenterX - startCenterX;
+        this.mX = (float) ((int) ((motionPaths.mX + (pathVectorX * path)) - ((scaleX * scaleWidth) / 2.0f)));
+        this.mY = (float) ((int) ((motionPaths.mY + ((endCenterY - startCenterY) * path)) - ((scaleY * scaleHeight) / 2.0f)));
+        this.mWidth = (float) ((int) (motionPaths.mWidth + (scaleX * scaleWidth)));
+        this.mHeight = (float) ((int) (motionPaths.mHeight + (scaleY * scaleHeight)));
+        this.mMode = 2;
+        if (!Float.isNaN(motionKeyPosition.mPercentX)) {
+            this.mX = (float) ((int) (motionKeyPosition.mPercentX * ((float) (parentWidth - ((int) this.mWidth)))));
+        }
+        if (!Float.isNaN(motionKeyPosition.mPercentY)) {
+            float f2 = pathVectorX;
+            this.mY = (float) ((int) (motionKeyPosition.mPercentY * ((float) (parentHeight - ((int) this.mHeight)))));
+        } else {
+            int i = parentHeight;
+        }
+        this.mAnimateRelativeTo = this.mAnimateRelativeTo;
+        this.mKeyFrameEasing = Easing.getInterpolator(motionKeyPosition.mTransitionEasing);
+        this.mPathMotionArc = motionKeyPosition.mPathMotionArc;
+    }
+
+    /* access modifiers changed from: package-private */
+    public void initPath(MotionKeyPosition c, MotionPaths startTimePoint, MotionPaths endTimePoint) {
+        MotionKeyPosition motionKeyPosition = c;
+        MotionPaths motionPaths = startTimePoint;
+        MotionPaths motionPaths2 = endTimePoint;
+        float position = ((float) motionKeyPosition.mFramePosition) / 100.0f;
+        this.mTime = position;
+        this.mDrawPath = motionKeyPosition.mDrawPath;
+        float scaleWidth = Float.isNaN(motionKeyPosition.mPercentWidth) ? position : motionKeyPosition.mPercentWidth;
+        float scaleHeight = Float.isNaN(motionKeyPosition.mPercentHeight) ? position : motionKeyPosition.mPercentHeight;
+        float scaleX = motionPaths2.mWidth - motionPaths.mWidth;
+        float scaleY = motionPaths2.mHeight - motionPaths.mHeight;
+        this.mPosition = this.mTime;
+        float path = Float.isNaN(motionKeyPosition.mPercentX) ? position : motionKeyPosition.mPercentX;
+        float startCenterX = motionPaths.mX + (motionPaths.mWidth / 2.0f);
+        float startCenterY = motionPaths.mY + (motionPaths.mHeight / 2.0f);
+        float f = position;
+        float pathVectorX = (motionPaths2.mX + (motionPaths2.mWidth / 2.0f)) - startCenterX;
+        float pathVectorY = (motionPaths2.mY + (motionPaths2.mHeight / 2.0f)) - startCenterY;
+        this.mX = (float) ((int) ((motionPaths.mX + (pathVectorX * path)) - ((scaleX * scaleWidth) / 2.0f)));
+        this.mY = (float) ((int) ((motionPaths.mY + (pathVectorY * path)) - ((scaleY * scaleHeight) / 2.0f)));
+        this.mWidth = (float) ((int) (motionPaths.mWidth + (scaleX * scaleWidth)));
+        this.mHeight = (float) ((int) (motionPaths.mHeight + (scaleY * scaleHeight)));
+        float perpendicular = Float.isNaN(motionKeyPosition.mPercentY) ? 0.0f : motionKeyPosition.mPercentY;
+        float f2 = startCenterX;
+        float f3 = perpendicular;
+        this.mMode = 1;
+        this.mX = (float) ((int) ((motionPaths.mX + (pathVectorX * path)) - ((scaleX * scaleWidth) / 2.0f)));
+        this.mY = (float) ((int) ((motionPaths.mY + (pathVectorY * path)) - ((scaleY * scaleHeight) / 2.0f)));
+        this.mX += (-pathVectorY) * perpendicular;
+        this.mY += pathVectorX * perpendicular;
+        this.mAnimateRelativeTo = this.mAnimateRelativeTo;
+        this.mKeyFrameEasing = Easing.getInterpolator(motionKeyPosition.mTransitionEasing);
+        this.mPathMotionArc = motionKeyPosition.mPathMotionArc;
+    }
+
+    private static float xRotate(float sin, float cos, float cx, float cy, float x, float y) {
+        return (((x - cx) * cos) - ((y - cy) * sin)) + cx;
+    }
+
+    private static float yRotate(float sin, float cos, float cx, float cy, float x, float y) {
+        return ((x - cx) * sin) + ((y - cy) * cos) + cy;
+    }
+
+    private boolean diff(float a, float b) {
+        if (Float.isNaN(a) || Float.isNaN(b)) {
+            if (Float.isNaN(a) != Float.isNaN(b)) {
+                return true;
+            }
+            return false;
+        } else if (Math.abs(a - b) > 1.0E-6f) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /* access modifiers changed from: package-private */
+    public void different(MotionPaths points, boolean[] mask, String[] custom, boolean arcMode) {
+        boolean diffx = diff(this.mX, points.mX);
+        boolean diffy = diff(this.mY, points.mY);
+        int c = 0 + 1;
+        mask[0] = mask[0] | diff(this.mPosition, points.mPosition);
+        int c2 = c + 1;
+        boolean z = false;
+        mask[c] = mask[c] | (diffx || diffy || arcMode);
+        int c3 = c2 + 1;
+        boolean z2 = mask[c2];
+        if (diffx || diffy || arcMode) {
+            z = true;
+        }
+        mask[c2] = z2 | z;
+        int c4 = c3 + 1;
+        mask[c3] = mask[c3] | diff(this.mWidth, points.mWidth);
+        int i = c4 + 1;
+        mask[c4] = mask[c4] | diff(this.mHeight, points.mHeight);
+    }
+
+    /* access modifiers changed from: package-private */
+    public void getCenter(double p, int[] toUse, double[] data, float[] point, int offset) {
+        float f;
+        int[] iArr = toUse;
+        float v_x = this.mX;
+        float v_y = this.mY;
+        float v_width = this.mWidth;
+        float v_height = this.mHeight;
+        for (int i = 0; i < iArr.length; i++) {
+            float value = (float) data[i];
+            switch (iArr[i]) {
+                case 1:
+                    v_x = value;
+                    break;
+                case 2:
+                    v_y = value;
+                    break;
+                case 3:
+                    v_width = value;
+                    break;
+                case 4:
+                    v_height = value;
+                    break;
+            }
+        }
+        if (this.mRelativeToController != null) {
+            float[] pos = new float[2];
+            this.mRelativeToController.getCenter(p, pos, new float[2]);
+            float rx = pos[0];
+            float ry = pos[1];
+            float radius = v_x;
+            float[] fArr = pos;
+            float f2 = v_x;
+            float f3 = rx;
+            float angle = v_y;
+            f = 2.0f;
+            v_y = (float) ((((double) ry) - (((double) radius) * Math.cos((double) angle))) - ((double) (v_height / 2.0f)));
+            v_x = (float) ((((double) rx) + (((double) radius) * Math.sin((double) angle))) - ((double) (v_width / 2.0f)));
+        } else {
+            float f4 = v_x;
+            f = 2.0f;
+        }
+        point[offset] = (v_width / f) + v_x + 0.0f;
+        point[offset + 1] = (v_height / f) + v_y + 0.0f;
+    }
+
+    /* access modifiers changed from: package-private */
+    public void getCenter(double p, int[] toUse, double[] data, float[] point, double[] vdata, float[] velocity) {
+        int[] iArr = toUse;
+        float v_x = this.mX;
+        float v_y = this.mY;
+        float v_width = this.mWidth;
+        float v_height = this.mHeight;
+        float dv_x = 0.0f;
+        float dv_y = 0.0f;
+        float dv_width = 0.0f;
+        float dv_height = 0.0f;
+        for (int i = 0; i < iArr.length; i++) {
+            float value = (float) data[i];
+            float dvalue = (float) vdata[i];
+            switch (iArr[i]) {
+                case 1:
+                    v_x = value;
+                    dv_x = dvalue;
+                    break;
+                case 2:
+                    v_y = value;
+                    dv_y = dvalue;
+                    break;
+                case 3:
+                    v_width = value;
+                    dv_width = dvalue;
+                    break;
+                case 4:
+                    v_height = value;
+                    dv_height = dvalue;
+                    break;
+            }
+        }
+        float dangle = (dv_width / 2.0f) + dv_x;
+        float dpos_y = (dv_height / 2.0f) + dv_y;
+        if (this.mRelativeToController != null) {
+            float[] pos = new float[2];
+            float[] vel = new float[2];
+            float f = dv_width;
+            float f2 = dv_height;
+            this.mRelativeToController.getCenter(p, pos, vel);
+            float rx = pos[0];
+            float ry = pos[1];
+            float radius = v_x;
+            float angle = v_y;
+            float dradius = dv_x;
+            float dangle2 = dv_y;
+            float f3 = v_x;
+            float drx = vel[0];
+            float f4 = v_y;
+            float v_y2 = vel[1];
+            float f5 = dv_x;
+            float f6 = dv_y;
+            double d = (double) rx;
+            float f7 = rx;
+            float rx2 = radius;
+            float[] fArr = pos;
+            float f8 = dpos_y;
+            float angle2 = angle;
+            float angle3 = dangle;
+            float ry2 = ry;
+            float f9 = rx2;
+            float v_y3 = (float) ((((double) ry) - (((double) rx2) * Math.cos((double) angle2))) - ((double) (v_height / 2.0f)));
+            float dradius2 = dradius;
+            float v_x2 = (float) ((d + (((double) rx2) * Math.sin((double) angle2))) - ((double) (v_width / 2.0f)));
+            float f10 = ry2;
+            double sin = ((double) drx) + (((double) dradius2) * Math.sin((double) angle2));
+            float dangle3 = dangle2;
+            float[] fArr2 = vel;
+            float f11 = dradius2;
+            dpos_y = (float) ((((double) v_y2) - (((double) dradius2) * Math.cos((double) angle2))) + (Math.sin((double) angle2) * ((double) dangle3)));
+            dangle = (float) (sin + (Math.cos((double) angle2) * ((double) dangle3)));
+            v_y = v_y3;
+            v_x = v_x2;
+        } else {
+            float ry3 = v_x;
+            float f12 = v_y;
+            float f13 = dv_x;
+            float f14 = dv_y;
+            float f15 = dv_width;
+            float f16 = dv_height;
+            float f17 = dangle;
+            float f18 = dpos_y;
+        }
+        point[0] = (v_width / 2.0f) + v_x + 0.0f;
+        point[1] = (v_height / 2.0f) + v_y + 0.0f;
+        velocity[0] = dangle;
+        velocity[1] = dpos_y;
+    }
+
+    /* access modifiers changed from: package-private */
+    public void getCenterVelocity(double p, int[] toUse, double[] data, float[] point, int offset) {
+        float f;
+        int[] iArr = toUse;
+        float v_x = this.mX;
+        float v_y = this.mY;
+        float v_width = this.mWidth;
+        float v_height = this.mHeight;
+        for (int i = 0; i < iArr.length; i++) {
+            float value = (float) data[i];
+            switch (iArr[i]) {
+                case 1:
+                    v_x = value;
+                    break;
+                case 2:
+                    v_y = value;
+                    break;
+                case 3:
+                    v_width = value;
+                    break;
+                case 4:
+                    v_height = value;
+                    break;
+            }
+        }
+        if (this.mRelativeToController != null) {
+            float[] pos = new float[2];
+            this.mRelativeToController.getCenter(p, pos, new float[2]);
+            float rx = pos[0];
+            float ry = pos[1];
+            float radius = v_x;
+            float[] fArr = pos;
+            float f2 = v_x;
+            float f3 = rx;
+            float angle = v_y;
+            f = 2.0f;
+            v_y = (float) ((((double) ry) - (((double) radius) * Math.cos((double) angle))) - ((double) (v_height / 2.0f)));
+            v_x = (float) ((((double) rx) + (((double) radius) * Math.sin((double) angle))) - ((double) (v_width / 2.0f)));
+        } else {
+            float f4 = v_x;
+            f = 2.0f;
+        }
+        point[offset] = (v_width / f) + v_x + 0.0f;
+        point[offset + 1] = (v_height / f) + v_y + 0.0f;
+    }
+
+    /* access modifiers changed from: package-private */
+    public void getBounds(int[] toUse, double[] data, float[] point, int offset) {
+        float f = this.mX;
+        float f2 = this.mY;
+        float v_width = this.mWidth;
+        float v_height = this.mHeight;
+        for (int i = 0; i < toUse.length; i++) {
+            float value = (float) data[i];
+            switch (toUse[i]) {
+                case 1:
+                    float v_x = value;
+                    break;
+                case 2:
+                    float v_y = value;
+                    break;
+                case 3:
+                    v_width = value;
+                    break;
+                case 4:
+                    v_height = value;
+                    break;
+            }
+        }
+        point[offset] = v_width;
+        point[offset + 1] = v_height;
+    }
+
+    /* access modifiers changed from: package-private */
+    public void setView(float position, MotionWidget view, int[] toUse, double[] data, double[] slope, double[] cycle) {
+        float v_x;
+        float v_height;
+        float pos_y;
+        MotionWidget motionWidget;
+        float dv_y;
+        float v_y;
+        float delta_path;
+        float dv_height;
+        double d;
+        MotionWidget motionWidget2 = view;
+        int[] iArr = toUse;
+        double[] dArr = slope;
+        float v_x2 = this.mX;
+        float v_y2 = this.mY;
+        float v_width = this.mWidth;
+        float dv_height2 = this.mHeight;
+        float dv_x = 0.0f;
+        float dv_y2 = 0.0f;
+        float dv_width = 0.0f;
+        float value = 0.0f;
+        float delta_path2 = 0.0f;
+        float path_rotate = Float.NaN;
+        if (iArr.length != 0) {
+            v_x = v_x2;
+            if (this.mTempValue.length <= iArr[iArr.length - 1]) {
+                int scratch_data_length = iArr[iArr.length - 1] + 1;
+                this.mTempValue = new double[scratch_data_length];
+                this.mTempDelta = new double[scratch_data_length];
+            }
+        } else {
+            v_x = v_x2;
+        }
+        float v_y3 = v_y2;
+        float v_width2 = v_width;
+        Arrays.fill(this.mTempValue, Double.NaN);
+        for (int i = 0; i < iArr.length; i++) {
+            this.mTempValue[iArr[i]] = data[i];
+            this.mTempDelta[iArr[i]] = dArr[i];
+        }
+        int i2 = 0;
+        float dv_y3 = v_y3;
+        float dv_width2 = v_width2;
+        while (i2 < this.mTempValue.length) {
+            double deltaCycle = 0.0d;
+            if (Double.isNaN(this.mTempValue[i2])) {
+                if (cycle == null) {
+                    dv_height = value;
+                    delta_path = delta_path2;
+                } else if (cycle[i2] == 0.0d) {
+                    dv_height = value;
+                    delta_path = delta_path2;
+                }
+                value = dv_height;
+                delta_path2 = delta_path;
+                i2++;
+                MotionWidget motionWidget3 = view;
+                int[] iArr2 = toUse;
+            }
+            if (cycle != null) {
+                deltaCycle = cycle[i2];
+            }
+            if (Double.isNaN(this.mTempValue[i2])) {
+                dv_height = value;
+                delta_path = delta_path2;
+                d = deltaCycle;
+            } else {
+                dv_height = value;
+                delta_path = delta_path2;
+                d = this.mTempValue[i2] + deltaCycle;
+            }
+            float value2 = (float) d;
+            float dvalue = (float) this.mTempDelta[i2];
+            switch (i2) {
+                case 0:
+                    delta_path2 = value2;
+                    value = dv_height;
+                    continue;
+                case 1:
+                    dv_x = dvalue;
+                    v_x = value2;
+                    value = dv_height;
+                    delta_path2 = delta_path;
+                    continue;
+                case 2:
+                    float v_y4 = value2;
+                    dv_y2 = dvalue;
+                    value = dv_height;
+                    delta_path2 = delta_path;
+                    dv_y3 = v_y4;
+                    continue;
+                case 3:
+                    float v_width3 = value2;
+                    dv_width = dvalue;
+                    value = dv_height;
+                    delta_path2 = delta_path;
+                    dv_width2 = v_width3;
+                    continue;
+                case 4:
+                    float path_rotate2 = value2;
+                    value = dvalue;
+                    delta_path2 = delta_path;
+                    dv_height2 = path_rotate2;
+                    continue;
+                case 5:
+                    path_rotate = value2;
+                    value = dv_height;
+                    delta_path2 = delta_path;
+                    continue;
+            }
+            value = dv_height;
+            delta_path2 = delta_path;
+            i2++;
+            MotionWidget motionWidget32 = view;
+            int[] iArr22 = toUse;
+        }
+        float dv_height3 = value;
+        float f = delta_path2;
+        if (this.mRelativeToController != null) {
+            float[] pos = new float[2];
+            float[] vel = new float[2];
+            this.mRelativeToController.getCenter((double) position, pos, vel);
+            float rx = pos[0];
+            float ry = pos[1];
+            float dradius = dv_x;
+            float dangle = dv_y2;
+            float drx = vel[0];
+            float dry = vel[1];
+            float[] fArr = pos;
+            float f2 = dv_y3;
+            float f3 = dv_x;
+            float radius = v_x;
+            float radius2 = dv_y2;
+            float[] fArr2 = vel;
+            float angle = dv_y3;
+            float angle2 = dv_width;
+            float pos_x = (float) ((((double) rx) + (((double) radius) * Math.sin((double) angle))) - ((double) (dv_width2 / 2.0f)));
+            float ry2 = ry;
+            float pos_y2 = (float) ((((double) ry) - (((double) radius) * Math.cos((double) angle))) - ((double) (dv_height2 / 2.0f)));
+            float f4 = ry2;
+            float dradius2 = dradius;
+            v_height = dv_height2;
+            float path_rotate3 = path_rotate;
+            float dangle2 = dangle;
+            float dangle3 = dv_height3;
+            float dpos_x = (float) (((double) drx) + (((double) dradius2) * Math.sin((double) angle)) + (((double) radius) * Math.cos((double) angle) * ((double) dangle2)));
+            float f5 = dry;
+            float rx2 = rx;
+            float dpos_y = (float) ((((double) dry) - (((double) dradius2) * Math.cos((double) angle))) + (((double) radius) * Math.sin((double) angle) * ((double) dangle2)));
+            float dv_x2 = dpos_x;
+            float dv_y4 = dpos_y;
+            v_x = pos_x;
+            float v_y5 = pos_y2;
+            double[] dArr2 = slope;
+            float f6 = drx;
+            if (dArr2.length >= 2) {
+                float f7 = angle;
+                dArr2[0] = (double) dpos_x;
+                dArr2[1] = (double) dpos_y;
+            }
+            if (!Float.isNaN(path_rotate3)) {
+                float f8 = dpos_y;
+                v_y = v_y5;
+                float f9 = pos_x;
+                dv_y = dv_y4;
+                float f10 = rx2;
+                motionWidget = view;
+                motionWidget.setRotationZ((float) (((double) path_rotate3) + Math.toDegrees(Math.atan2((double) dv_y4, (double) dv_x2))));
+            } else {
+                v_y = v_y5;
+                dv_y = dv_y4;
+                float f11 = rx2;
+                float f12 = path_rotate3;
+                motionWidget = view;
+                float path_rotate4 = pos_x;
+            }
+            pos_y = v_y;
+            float f13 = dv_y;
+        } else {
+            motionWidget = view;
+            float v_y6 = dv_y3;
+            v_height = dv_height2;
+            float dv_x3 = dv_x;
+            float dv_y5 = dv_y2;
+            float dv_width3 = dv_width;
+            float path_rotate5 = path_rotate;
+            float dv_height4 = dv_height3;
+            double[] dArr3 = dArr;
+            if (!Float.isNaN(path_rotate5)) {
+                motionWidget.setRotationZ(0.0f + ((float) (((double) path_rotate5) + Math.toDegrees(Math.atan2((double) (dv_y5 + (dv_height4 / 2.0f)), (double) (dv_x3 + (dv_width3 / 2.0f)))))));
+            }
+            float dy = dv_y5;
+            pos_y = v_y6;
+            float f14 = dv_x3;
+        }
+        int l = (int) (v_x + 0.5f);
+        int t = (int) (pos_y + 0.5f);
+        int r = (int) (v_x + 0.5f + dv_width2);
+        int b = (int) (0.5f + pos_y + v_height);
+        int i3 = r - l;
+        int i4 = b - t;
+        motionWidget.layout(l, t, r, b);
+    }
+
+    /* access modifiers changed from: package-private */
+    public void getRect(int[] toUse, double[] data, float[] path, int offset) {
+        float angle;
+        int[] iArr = toUse;
+        float v_x = this.mX;
+        float v_y = this.mY;
+        float v_width = this.mWidth;
+        float v_height = this.mHeight;
+        float alpha = 0.0f;
+        float rotationX = 0.0f;
+        int i = 0;
+        while (true) {
+            float alpha2 = alpha;
+            if (i < iArr.length) {
+                float rotationX2 = rotationX;
+                float value = (float) data[i];
+                switch (iArr[i]) {
+                    case 0:
+                        float delta_path = value;
+                        break;
+                    case 1:
+                        v_x = value;
+                        break;
+                    case 2:
+                        v_y = value;
+                        break;
+                    case 3:
+                        v_width = value;
+                        break;
+                    case 4:
+                        v_height = value;
+                        break;
+                }
+                i++;
+                alpha = alpha2;
+                rotationX = rotationX2;
+            } else {
+                if (this.mRelativeToController != null) {
+                    float rx = this.mRelativeToController.getCenterX();
+                    float f = v_y;
+                    float radius = v_x;
+                    float f2 = v_y;
+                    float f3 = rx;
+                    angle = 0.0f;
+                    float v_x2 = (float) ((((double) rx) + (((double) radius) * Math.sin((double) v_y))) - ((double) (v_width / 2.0f)));
+                    v_y = (float) ((((double) this.mRelativeToController.getCenterY()) - (((double) radius) * Math.cos((double) v_y))) - ((double) (v_height / 2.0f)));
+                    v_x = v_x2;
+                } else {
+                    float f4 = v_y;
+                    angle = 0.0f;
+                }
+                float x1 = v_x;
+                float y1 = v_y;
+                float x2 = v_x + v_width;
+                float y2 = y1;
+                float x3 = x2;
+                float y3 = v_y + v_height;
+                float x4 = x1;
+                float y4 = y3;
+                float cx = x1 + (v_width / 2.0f);
+                float cy = y1 + (v_height / 2.0f);
+                if (!Float.isNaN(Float.NaN)) {
+                    cx = x1 + ((x2 - x1) * Float.NaN);
+                }
+                if (!Float.isNaN(Float.NaN)) {
+                    cy = y1 + ((y3 - y1) * Float.NaN);
+                }
+                if (1.0f != 1.0f) {
+                    float midx = (x1 + x2) / 2.0f;
+                    x1 = ((x1 - midx) * 1.0f) + midx;
+                    x2 = ((x2 - midx) * 1.0f) + midx;
+                    x3 = ((x3 - midx) * 1.0f) + midx;
+                    x4 = ((x4 - midx) * 1.0f) + midx;
+                }
+                if (1.0f != 1.0f) {
+                    float midy = (y1 + y3) / 2.0f;
+                    y1 = ((y1 - midy) * 1.0f) + midy;
+                    y2 = ((y2 - midy) * 1.0f) + midy;
+                    y3 = ((y3 - midy) * 1.0f) + midy;
+                    y4 = ((y4 - midy) * 1.0f) + midy;
+                }
+                if (angle != 0.0f) {
+                    float f5 = v_x;
+                    float f6 = v_y;
+                    float rotation = angle;
+                    float rotation2 = v_width;
+                    float f7 = v_height;
+                    float sin = (float) Math.sin(Math.toRadians((double) rotation));
+                    float cos = (float) Math.cos(Math.toRadians((double) rotation));
+                    float f8 = cx;
+                    float f9 = cy;
+                    float f10 = x1;
+                    float f11 = y1;
+                    float tx1 = xRotate(sin, cos, f8, f9, f10, f11);
+                    float ty1 = yRotate(sin, cos, f8, f9, f10, f11);
+                    float f12 = x2;
+                    float f13 = y2;
+                    float tx2 = xRotate(sin, cos, f8, f9, f12, f13);
+                    float ty2 = yRotate(sin, cos, f8, f9, f12, f13);
+                    float f14 = x3;
+                    float f15 = y3;
+                    float tx3 = xRotate(sin, cos, f8, f9, f14, f15);
+                    float ty3 = yRotate(sin, cos, f8, f9, f14, f15);
+                    float f16 = x4;
+                    float f17 = y4;
+                    x1 = tx1;
+                    y1 = ty1;
+                    x2 = tx2;
+                    y2 = ty2;
+                    x3 = tx3;
+                    y3 = ty3;
+                    x4 = xRotate(sin, cos, f8, f9, f16, f17);
+                    y4 = yRotate(sin, cos, f8, f9, f16, f17);
+                } else {
+                    float f18 = v_y;
+                    float f19 = v_height;
+                    float v_x3 = angle;
+                    float rotation3 = v_width;
+                }
+                int offset2 = offset + 1;
+                path[offset] = x1 + 0.0f;
+                int offset3 = offset2 + 1;
+                path[offset2] = y1 + 0.0f;
+                int offset4 = offset3 + 1;
+                path[offset3] = x2 + 0.0f;
+                int offset5 = offset4 + 1;
+                path[offset4] = y2 + 0.0f;
+                int offset6 = offset5 + 1;
+                path[offset5] = x3 + 0.0f;
+                int offset7 = offset6 + 1;
+                path[offset6] = y3 + 0.0f;
+                int offset8 = offset7 + 1;
+                path[offset7] = x4 + 0.0f;
+                int i2 = offset8 + 1;
+                path[offset8] = y4 + 0.0f;
+                return;
+            }
+        }
+    }
+
+    /* access modifiers changed from: package-private */
+    public void setDpDt(float locationX, float locationY, float[] mAnchorDpDt, int[] toUse, double[] deltaData, double[] data) {
+        int[] iArr = toUse;
+        float d_x = 0.0f;
+        float d_y = 0.0f;
+        float d_width = 0.0f;
+        float d_height = 0.0f;
+        for (int i = 0; i < iArr.length; i++) {
+            float deltaV = (float) deltaData[i];
+            switch (iArr[i]) {
+                case 1:
+                    d_x = deltaV;
+                    break;
+                case 2:
+                    d_y = deltaV;
+                    break;
+                case 3:
+                    d_width = deltaV;
+                    break;
+                case 4:
+                    d_height = deltaV;
+                    break;
+            }
+        }
+        float deltaX = d_x - ((0.0f * d_width) / 2.0f);
+        float deltaY = d_y - ((0.0f * d_height) / 2.0f);
+        mAnchorDpDt[0] = ((1.0f - locationX) * deltaX) + ((deltaX + ((0.0f + 1.0f) * d_width)) * locationX) + 0.0f;
+        mAnchorDpDt[1] = ((1.0f - locationY) * deltaY) + ((deltaY + ((0.0f + 1.0f) * d_height)) * locationY) + 0.0f;
+    }
+
+    /* access modifiers changed from: package-private */
+    public void fillStandard(double[] data, int[] toUse) {
+        float[] set = {this.mPosition, this.mX, this.mY, this.mWidth, this.mHeight, this.mPathRotate};
+        int c = 0;
+        for (int i = 0; i < toUse.length; i++) {
+            if (toUse[i] < set.length) {
+                data[c] = (double) set[toUse[i]];
+                c++;
+            }
+        }
+    }
+
+    /* access modifiers changed from: package-private */
+    public boolean hasCustomData(String name) {
+        return this.mCustomAttributes.containsKey(name);
+    }
+
+    /* access modifiers changed from: package-private */
+    public int getCustomDataCount(String name) {
+        CustomVariable a = this.mCustomAttributes.get(name);
+        if (a == null) {
+            return 0;
+        }
+        return a.numberOfInterpolatedValues();
+    }
+
+    /* access modifiers changed from: package-private */
+    public int getCustomData(String name, double[] value, int offset) {
+        CustomVariable a = this.mCustomAttributes.get(name);
+        if (a == null) {
+            return 0;
+        }
+        if (a.numberOfInterpolatedValues() == 1) {
+            value[offset] = (double) a.getValueToInterpolate();
+            return 1;
+        }
+        int n = a.numberOfInterpolatedValues();
+        float[] f = new float[n];
+        a.getValuesToInterpolate(f);
+        int i = 0;
+        while (i < n) {
+            value[offset] = (double) f[i];
+            i++;
+            offset++;
+        }
+        return n;
+    }
+
+    /* access modifiers changed from: package-private */
+    public void setBounds(float x, float y, float w, float h) {
+        this.mX = x;
+        this.mY = y;
+        this.mWidth = w;
+        this.mHeight = h;
+    }
+
+    public int compareTo(MotionPaths o) {
+        return Float.compare(this.mPosition, o.mPosition);
+    }
+
+    public void applyParameters(MotionWidget c) {
+        this.mKeyFrameEasing = Easing.getInterpolator(c.mMotion.mTransitionEasing);
+        this.mPathMotionArc = c.mMotion.mPathMotionArc;
+        this.mAnimateRelativeTo = c.mMotion.mAnimateRelativeTo;
+        this.mPathRotate = c.mMotion.mPathRotate;
+        this.mDrawPath = c.mMotion.mDrawPath;
+        this.mAnimateCircleAngleTo = c.mMotion.mAnimateCircleAngleTo;
+        this.mProgress = c.mPropertySet.mProgress;
+        if (!(c.mWidgetFrame == null || c.mWidgetFrame.widget == null)) {
+            this.mRelativeAngle = c.mWidgetFrame.widget.mCircleConstraintAngle;
+        }
+        for (String s : c.getCustomAttributeNames()) {
+            CustomVariable attr = c.getCustomAttribute(s);
+            if (attr != null && attr.isContinuous()) {
+                this.mCustomAttributes.put(s, attr);
+            }
+        }
+    }
+
+    public void configureRelativeTo(Motion toOrbit) {
+        double[] pos = toOrbit.getPos((double) this.mProgress);
+    }
+}
