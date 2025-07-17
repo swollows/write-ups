@@ -23,6 +23,3 @@ contract Safe {
         owner = _owner;
     }
 }
-
-
-
