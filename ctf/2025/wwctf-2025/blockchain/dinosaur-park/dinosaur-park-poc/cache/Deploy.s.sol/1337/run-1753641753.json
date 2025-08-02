@@ -1,0 +1,16 @@
+{
+  "transactions": [
+    {
+      "rpc": "http://chal.wwctf.com:8545/8ac64b4f-35d9-4549-91e3-8c1fab2aa43b"
+    },
+    {
+      "rpc": "http://chal.wwctf.com:8545/8ac64b4f-35d9-4549-91e3-8c1fab2aa43b"
+    },
+    {
+      "rpc": "http://chal.wwctf.com:8545/8ac64b4f-35d9-4549-91e3-8c1fab2aa43b"
+    },
+    {
+      "rpc": "http://chal.wwctf.com:8545/8ac64b4f-35d9-4549-91e3-8c1fab2aa43b"
+    }
+  ]
+}

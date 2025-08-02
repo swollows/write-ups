@@ -2,9 +2,6 @@ from web3 import Web3
 from solcx import compile_source
 from dotenv import dotenv_values
 
-# 풀이
-# 1. 
-
 ENV_PATH = "../.env"
 
 dict_output = dotenv_values(ENV_PATH)
@@ -12,7 +9,8 @@ dict_output = dotenv_values(ENV_PATH)
 RPC_URI = dict_output['WEB3_PROVIDER_URI']
 
 
-CONTRACT_ADDRESS = '0x6F1216D1BFe15c98520CA1434FC1d9D57AC95321'
+DINO_ADDRESS = '0x6F1216D1BFe15c98520CA1434FC1d9D57AC95321'
+ARENA_ADDRESS = ''
 LEVEL_ADDRESS = '0x' + dict_output['ETHERNAUT_LEVEL07_ADDRESS']
 USER_PRIVATE_KEY = '0x' + dict_output['USER_ADDRESS_PRIVATE_KEY']
 
@@ -29,7 +27,7 @@ USER_ADDRESS = PA.address
 
 CONTRACT_ABI = []
 
-with open("./contract/ForceAttack.sol", "r") as f:
+with open("./dinosaur-park/src/Solve.sol", "r") as f:
     ATTACKER_SRC_DATA = f.read()
 
 COMPILED_SOL = compile_source(ATTACKER_SRC_DATA, output_values=['abi', 'bin'])
