@@ -2,21 +2,18 @@
 pragma solidity ^0.8.13;
 
 import "../src/Solve.sol";
-import "../src/Solver.sol";
 import {Script} from "forge-std/Script.sol";
 import "forge-std/console.sol";
 
 contract Deploy is Script {
-    address target = 0xeC4cFde48EAdca2bC63E94BB437BbeAcE1371bF3;
+    address target = 0xF1823bc4243b40423b8C8c3F6174e687a4C690b8;
 
     function run() external {
         vm.startBroadcast();
 
-        Solver solver = new Solver();
-        Solve solve = new Solve(target, address(solver));
+        Solve solve = new Solve(target);
 
         console.log("Solve Contract Address:", address(solve));
-        console.log("Solver Contract Address:", address(solver));
 
         solve.attack();
 
