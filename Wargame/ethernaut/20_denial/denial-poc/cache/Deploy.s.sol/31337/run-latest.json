@@ -5,9 +5,6 @@
     },
     {
       "rpc": "http://localhost:8545/"
-    },
-    {
-      "rpc": "http://localhost:8545/"
     }
   ]
 }
