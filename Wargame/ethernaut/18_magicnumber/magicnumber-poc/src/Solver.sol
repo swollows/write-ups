@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.13;
 
-contract Solve {
+contract Solver {
     constructor() {
         assembly {
             mstore(0, 0x602a60005260206000f3)
