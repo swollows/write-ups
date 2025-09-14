@@ -7,3 +7,12 @@
 [submodule "lib/forge-std"]
 	path = lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
+[submodule "Wargame/ethernaut/23_dex2/dex2-poc/lib/forge-std"]
+	path = Wargame/ethernaut/23_dex2/dex2-poc/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "Wargame/ethernaut/23_dex2/dex2-poc/lib/openzeppelin-contracts"]
+	path = Wargame/ethernaut/23_dex2/dex2-poc/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "ctf/2025/defcampctf-2025/misc/i-tem-u/i-tem-u-poc/lib/forge-std"]
+	path = ctf/2025/defcampctf-2025/misc/i-tem-u/i-tem-u-poc/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
