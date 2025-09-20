@@ -16,3 +16,6 @@
 [submodule "ctf/2025/defcampctf-2025/misc/i-tem-u/i-tem-u-poc/lib/forge-std"]
 	path = ctf/2025/defcampctf-2025/misc/i-tem-u/i-tem-u-poc/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
+[submodule "Wargame/ethernaut/25_motorbike/motorbike-poc/lib/forge-std"]
+	path = Wargame/ethernaut/25_motorbike/motorbike-poc/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
