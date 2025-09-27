@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:aapt="http://schemas.android.com/aapt" android:id="@+id/nav_graph" app:startDestination="@+id/TheChecker">
-    <fragment android:label="@string/first_fragment_label" android:name="com.defensys.androbro.TheChecker" android:id="@+id/TheChecker">
-        <action android:id="@+id/action_TheChecker_to_SecondFragment" app:destination="@+id/SecondFragment"/>
-    </fragment>
-    <fragment android:label="@string/second_fragment_label" android:name="com.defensys.androbro.SecondFragment" android:id="@+id/SecondFragment">
-        <action android:id="@+id/action_SecondFragment_to_TheChecker" app:destination="@+id/TheChecker"/>
-    </fragment>
-</navigation>

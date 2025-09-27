@@ -1,5 +1,9 @@
 ctf/**/.env
 Wargame/ethernaut/.env
+Wargame/ethernaut/**/broadcast
+Wargame/ethernaut/**/cache
+Wargame/ethernaut/**/out
+Wargame/ethernaut/**/lib
 Wargame/nodeguardians.io/.env
 .vscode
 .DS_Store

@@ -1,3 +1,0 @@
-DH{55f2394156567886667940273839575eb0af4b3f115345f0cc8b9}
-
-## This is a sample FLAG ##

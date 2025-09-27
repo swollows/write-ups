@@ -1,1 +1,0 @@
-CTF{this isn't a flag}
