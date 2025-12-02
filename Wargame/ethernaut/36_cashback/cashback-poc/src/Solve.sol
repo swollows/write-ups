@@ -22,7 +22,7 @@ contract NonceManipulator {
     }
 }
 
-contract Exploit {
+contract Solve {
     Cashback public immutable cashback;
     NonceManipulator public immutable manipulator;
     
