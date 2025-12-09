@@ -1,29 +1,16 @@
 #!/bin/bash
 set -e
 
+# .env 파일 로드 후 export
+set -a  # 이후 정의되는 모든 변수를 자동 export
 source ../../.env
+set +a
 
-echo "========== Step 1: Deploy NonceManipulator =========="
+echo "========== Running Exploit =========="
 forge script script/Deploy.s.sol:Exploit \
     --rpc-url $WEB3_PROVIDER_URI \
-    --broadcast \
-    -vvvv
-
-echo ""
-echo "배포된 NonceManipulator 주소를 .env의 MANIPULATOR_ADDRESS에 입력하세요"
-echo "Press Enter to continue..."
-read
-
-echo "========== Step 2: Set Nonce to 9999 =========="
-forge script script/Deploy.s.sol:ExploitStep2 \
-    --rpc-url $WEB3_PROVIDER_URI \
-    --broadcast \
-    -vvvv
-
-echo "========== Step 3: Trigger Super Cashback =========="
-forge script script/Deploy.s.sol:ExploitStep3 \
-    --rpc-url $WEB3_PROVIDER_URI \
-    --broadcast \
+    --skip-simulation \
+    --timeout 120 \
     -vvvv
 
 echo "========== Exploit Complete! =========="

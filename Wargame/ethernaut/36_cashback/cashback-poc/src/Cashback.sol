@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.30;
 
-import {IERC20} from "openzeppelin-contracts-v5.4.0/token/ERC20/IERC20.sol";
-import {IERC721} from "openzeppelin-contracts-v5.4.0/token/ERC721/IERC721.sol";
-import {ERC1155} from "openzeppelin-contracts-v5.4.0/token/ERC1155/ERC1155.sol";
-import {TransientSlot} from "openzeppelin-contracts-v5.4.0/utils/TransientSlot.sol";
+import {IERC20} from "@openzeppelin-contracts-v5.4.0/token/ERC20/IERC20.sol";
+import {IERC721} from "@openzeppelin-contracts-v5.4.0/token/ERC721/IERC721.sol";
+import {ERC1155} from "@openzeppelin-contracts-v5.4.0/token/ERC1155/ERC1155.sol";
+import {TransientSlot} from "@openzeppelin-contracts-v5.4.0/utils/TransientSlot.sol";
 
 /*//////////////////////////////////////////////////////////////
                         CURRENCY LIBRARY
