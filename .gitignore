@@ -6,3 +6,5 @@ Wargame/ethernaut/**/lib
 Wargame/nodeguardians.io/.env
 .vscode
 .DS_Store
+.omc
+.claude
