@@ -1,0 +1,29 @@
+services:
+  db:
+    image: mysql:8.0
+    platform: linux/amd64
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpw
+      MYSQL_DATABASE: ouroboros
+      MYSQL_USER: ouro
+      MYSQL_PASSWORD: ouropw
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d:ro
+    command: ["--default-authentication-plugin=mysql_native_password"]
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-prootpw"]
+      interval: 3s
+      retries: 30
+
+  web:
+    image: php:7.4-apache
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+    volumes:
+      - ./www:/var/www/html:ro
+    command: >
+      bash -c "docker-php-ext-install mysqli &&
+               apache2-foreground"

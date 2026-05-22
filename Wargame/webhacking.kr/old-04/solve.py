@@ -1,31 +1,39 @@
-from bs4 import BeautifulSoup
-import hashlib
+import pickle
 import requests
+import re
 
-URL = "https://webhacking.kr/challenge/web-04"
-URI = "/"
-PHPSESSID = 'bl8l650n93iq0apdgseavfnc39'
-
+URL = "https://webhacking.kr/challenge/web-04/"
 COOKIES = {
-    'PHPSESSID' : PHPSESSID
+    "PHPSESSID": "mpkd577e0q8p2jgb5na52aovld"
 }
 
+# 테이블 로드
+with open("table.pkl", "rb") as f:
+    table = pickle.load(f)
+
+# 해시값 가져오기
 session = requests.Session()
+session.cookies.update(COOKIES)
 
-# 풀이
-# 1. random 값 + "salt_for_you" 값이 sha1과 일치할때까지 bruteforcing
-# 2. bruteforcing 성공 후 값 전송 
+resp = session.get(URL)
+# 페이지에서 해시값 추출 (40자리 sha1)
+match = re.search(r'[a-f0-9]{40}', resp.text)
 
-resp = session.get(URL + URI, cookies=COOKIES)
+if match:
+    target = match.group()
+    print(f"해시값: {target}")
+    result = table.get(target)
+    if result:
+        print(f"found: {result}")
 
-soup = BeautifulSoup(resp.content,"html.parser")
-orig_hash = soup.find('b').contents[0].replace('\n', '')
+        DATA = {
+            "key": str(result) + "salt_for_you"
+        }
 
-for i in range(10000000,100000000):
-    PAYLOAD = str(i) + 'salt_for_you'
-
-    hash_object = hashlib.sha1(PAYLOAD.encode('utf-8'))
-    calc_hash = hash_object.hexdigest()
-
-    if orig_hash == calc_hash:
-        print(f'Password is "{PAYLOAD}"')
+        # 정답 제출
+        resp = session.post(URL, data=DATA)
+        print(resp.text)
+    else:
+        print("not found")
+else:
+    print("해시값을 찾을 수 없음")

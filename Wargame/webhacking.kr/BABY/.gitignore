@@ -1,0 +1,4 @@
+__pycache__/
+webhook.log
+ngrok.log
+cloudflared.log

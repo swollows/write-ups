@@ -1,0 +1,14 @@
+// query : select id from prob_death where id='' and pw=md5('')
+<?php
+  include "./config.php"; 
+  login_chk();
+  $db = dbconnect();
+  if(preg_match('/prob|_|\.|\(\)|admin/i', $_GET[id])) exit("No Hack ~_~"); 
+  if(preg_match('/prob|_|\.|\(\)|admin/i', $_GET[pw])) exit("No Hack ~_~"); 
+  $query = "select id from prob_death where id='{$_GET[id]}' and pw=md5('{$_GET[pw]}')"; 
+  echo "<hr>query : <strong>{$query}</strong><hr><br>"; 
+  $result = @mysqli_fetch_array(mysqli_query($db,$query)); 
+  if($result['id'] == 'admin') solve("death");
+  elseif($result['id']) echo "<h2>Hello {$result['id']}<br>You are not admin :(</h2>"; 
+  highlight_file(__FILE__); 
+?>

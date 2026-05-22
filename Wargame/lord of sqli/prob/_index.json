@@ -1,0 +1,296 @@
+[
+  {
+    "descrip": "gremlin",
+    "status": "completed",
+    "link": "./chall/gremlin_280c5552de8b681110e9287421b834fd.php",
+    "idx": 1
+  },
+  {
+    "descrip": "cobolt",
+    "status": "completed",
+    "link": "./chall/cobolt_b876ab5595253427d3bc34f1cd8f30db.php",
+    "idx": 2
+  },
+  {
+    "descrip": "goblin",
+    "status": "completed",
+    "link": "./chall/goblin_e5afb87a6716708e3af46a849517afdc.php",
+    "idx": 3
+  },
+  {
+    "descrip": "orc",
+    "status": "completed",
+    "link": "./chall/orc_60e5b360f95c1f9688e4f3a86c5dd494.php",
+    "idx": 4
+  },
+  {
+    "descrip": "wolfman",
+    "status": "completed",
+    "link": "./chall/wolfman_4fdc56b75971e41981e3d1e2fbe9b7f7.php",
+    "idx": 5
+  },
+  {
+    "descrip": "darkelf",
+    "status": "completed",
+    "link": "./chall/darkelf_c6a5ed64c4f6a7a5595c24977376136b.php",
+    "idx": 6
+  },
+  {
+    "descrip": "orge",
+    "status": "completed",
+    "link": "./chall/orge_bad2f25db233a7542be75844e314e9f3.php",
+    "idx": 7
+  },
+  {
+    "descrip": "troll",
+    "status": "completed",
+    "link": "./chall/troll_05b5eb65d94daf81c42dd44136cb0063.php",
+    "idx": 8
+  },
+  {
+    "descrip": "vampire",
+    "status": "completed",
+    "link": "./chall/vampire_e3f1ef853da067db37f342f3a1881156.php",
+    "idx": 9
+  },
+  {
+    "descrip": "skeleton",
+    "status": "completed",
+    "link": "./chall/skeleton_a857a5ab24431d6fb4a00577dac0f39c.php",
+    "idx": 10
+  },
+  {
+    "descrip": "golem",
+    "status": "completed",
+    "link": "./chall/golem_4b5202cfedd8160e73124b5234235ef5.php",
+    "idx": 11
+  },
+  {
+    "descrip": "darkknight",
+    "status": "completed",
+    "link": "./chall/darkknight_5cfbc71e68e09f1b039a8204d1a81456.php",
+    "idx": 12
+  },
+  {
+    "descrip": "bugbear",
+    "status": "completed",
+    "link": "./chall/bugbear_19ebf8c8106a5323825b5dfa1b07ac1f.php",
+    "idx": 13
+  },
+  {
+    "descrip": "giant",
+    "status": "completed",
+    "link": "./chall/giant_18a08c3be1d1753de0cb157703f75a5e.php",
+    "idx": 14
+  },
+  {
+    "descrip": "assassin",
+    "status": "completed",
+    "link": "./chall/assassin_14a1fd552c61c60f034879e5d4171373.php",
+    "idx": 15
+  },
+  {
+    "descrip": "succubus",
+    "status": "completed",
+    "link": "./chall/succubus_37568a99f12e6bd2f097e8038f74d768.php",
+    "idx": 16
+  },
+  {
+    "descrip": "zombie_assassin",
+    "status": "completed",
+    "link": "./chall/zombie_assassin_eac7521e07fe5f298301a44b61ffeec0.php",
+    "idx": 17
+  },
+  {
+    "descrip": "nightmare",
+    "status": "completed",
+    "link": "./chall/nightmare_be1285a95aa20e8fa154cb977c37fee5.php",
+    "idx": 18
+  },
+  {
+    "descrip": "xavis",
+    "status": "completed",
+    "link": "./chall/xavis_04f071ecdadb4296361d2101e4a2c390.php",
+    "idx": 19
+  },
+  {
+    "descrip": "dragon",
+    "status": "completed",
+    "link": "./chall/dragon_51996aa769df79afbf79eb4d66dbcef6.php",
+    "idx": 20
+  },
+  {
+    "descrip": "iron_golem",
+    "status": "completed",
+    "link": "./chall/iron_golem_beb244fe41dd33998ef7bb4211c56c75.php",
+    "idx": 21
+  },
+  {
+    "descrip": "dark_eyes",
+    "status": "completed",
+    "link": "./chall/dark_eyes_4e0c557b6751028de2e64d4d0020e02c.php",
+    "idx": 22
+  },
+  {
+    "descrip": "hell_fire",
+    "status": "completed",
+    "link": "./chall/hell_fire_309d5f471fbdd4722d221835380bb805.php",
+    "idx": 23
+  },
+  {
+    "descrip": "evil_wizard",
+    "status": "completed",
+    "link": "./chall/evil_wizard_32e3d35835aa4e039348712fb75169ad.php",
+    "idx": 24
+  },
+  {
+    "descrip": "green_dragon",
+    "status": "completed",
+    "link": "./chall/green_dragon_74d944f888fd3f9cf76e4e230e78c45b.php",
+    "idx": 25
+  },
+  {
+    "descrip": "red_dragon",
+    "status": "completed",
+    "link": "./chall/red_dragon_b787de2bfe6bc3454e2391c4e7bb5de8.php",
+    "idx": 26
+  },
+  {
+    "descrip": "blue_dragon",
+    "status": "completed",
+    "link": "./chall/blue_dragon_23f2e3c81dca66e496c7de2d63b82984.php",
+    "idx": 27
+  },
+  {
+    "descrip": "frankenstein",
+    "status": "completed",
+    "link": "./chall/frankenstein_b5bab23e64777e1756174ad33f14b5db.php",
+    "idx": 28
+  },
+  {
+    "descrip": "phantom",
+    "status": "completed",
+    "link": "./chall/phantom_e2e30eaf1c0b3cb61b4b72a932c849fe.php",
+    "idx": 29
+  },
+  {
+    "descrip": "ouroboros",
+    "status": "completed",
+    "link": "./chall/ouroboros_e3f483f087c922c84373b49950c212a9.php",
+    "idx": 30
+  },
+  {
+    "descrip": "zombie",
+    "status": "completed",
+    "link": "./chall/zombie_78238dee92f8ed0f508b0e9e00fc0e49.php",
+    "idx": 31
+  },
+  {
+    "descrip": "alien",
+    "status": "completed",
+    "link": "./chall/alien_91104597bf79b4d893425b65c166d484.php",
+    "idx": 32
+  },
+  {
+    "descrip": "cthulhu",
+    "status": "completed",
+    "link": "https://modsec.rubiya.kr/chall/cthulhu_c26ae41c4af4c2d7b21c19cbb9009604.php",
+    "idx": 33
+  },
+  {
+    "descrip": "death",
+    "status": "completed",
+    "link": "https://modsec.rubiya.kr/chall/death_0128e8a86066ca4f148444f0e99f4707.php",
+    "idx": 34
+  },
+  {
+    "descrip": "godzilla",
+    "status": "completed",
+    "link": "https://modsec.rubiya.kr/chall/godzilla_799f2ae774c76c0bfd8429b8d5692918.php",
+    "idx": 35
+  },
+  {
+    "descrip": "cyclops",
+    "status": "completed",
+    "link": "https://modsec.rubiya.kr/chall/cyclops_9d6a565d1cb6c38a06a6b0815344e29e.php",
+    "idx": 36
+  },
+  {
+    "descrip": "chupacabra",
+    "status": "completed",
+    "link": "./chall/chupacabra_8568ab6205bea61d634a8cc67484a35c.php",
+    "idx": 37
+  },
+  {
+    "descrip": "manticore",
+    "status": "completed",
+    "link": "./chall/manticore_f88f07d899ad0fc8738fe3aaacff9974.php",
+    "idx": 38
+  },
+  {
+    "descrip": "banshee",
+    "status": "completed",
+    "link": "./chall/banshee_ece938c70ea2419a093bb0be9f01a7b1.php",
+    "idx": 39
+  },
+  {
+    "descrip": "poltergeist",
+    "status": "completed",
+    "link": "./chall/poltergeist_a62c7abc7e6ce0080dbf0e14a07d1f1d.php",
+    "idx": 40
+  },
+  {
+    "descrip": "nessie",
+    "status": "completed",
+    "link": "./chall/nessie_7c5b5d8119ce2951f2a4f2b3a1824dd2.php",
+    "idx": 41
+  },
+  {
+    "descrip": "revenant",
+    "status": "completed",
+    "link": "./chall/revenant_05b27d7dea5f124118e48899d46e0b5b.php",
+    "idx": 42
+  },
+  {
+    "descrip": "yeti",
+    "status": "completed",
+    "link": "./chall/yeti_e6afc70b892148ced2d1e063c1230255.php",
+    "idx": 43
+  },
+  {
+    "descrip": "mummy",
+    "status": "completed",
+    "link": "./chall/mummy_2e13c2a4483d845ce2d37f7c910f0f83.php",
+    "idx": 44
+  },
+  {
+    "descrip": "kraken",
+    "status": "completed",
+    "link": "./chall/kraken_647f3513b94339a4c59cf6f9074d0f92.php",
+    "idx": 45
+  },
+  {
+    "descrip": "cerberus",
+    "status": "completed",
+    "link": "./chall/cerberus_39f611f3642be62b883da79f092c876d.php",
+    "idx": 46
+  },
+  {
+    "descrip": "siren",
+    "status": "completed",
+    "link": "./chall/siren_9e402fc1bc38574071d8369c2c3819ba.php",
+    "idx": 47
+  },
+  {
+    "descrip": "incubus",
+    "status": "completed",
+    "link": "./chall/incubus_3dff9ce783c9f574edf015a7b99450d7.php",
+    "idx": 48
+  },
+  {
+    "descrip": "AllClear",
+    "status": "todo",
+    "link": "./chall/AllClear_f7899d9e4122f59c898642e67e8d2e0c.php",
+    "idx": 49
+  }
+]

@@ -8,3 +8,11 @@ Wargame/nodeguardians.io/.env
 .DS_Store
 .omc
 .claude
+**/.omc/**
+**/.omx/**
+**/__pycache__/**
+*.py[cod]
+Wargame/cryptohack.org/Challenges/03-hash-functions/02-collisions/01-collider/hashclash/
+Wargame/cryptohack.org/Challenges/03-hash-functions/02-collisions/01-collider/md5collgen/
+Wargame/lord of sqli/references/LordofSQLi/
+Wargame/webhacking.kr/old-04/table.pkl
